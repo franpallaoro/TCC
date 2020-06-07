@@ -1,0 +1,191 @@
+install.packages("readr")
+install.packages('readr')
+setwd("~/Área de Trabalho/BOLSA")
+dados <- read.csv('6_Portfolios_2x3.CSV', header = T)
+View(dados)
+setwd("~/Área de Trabalho/BOLSA/TCC")
+source('~/Área de Trabalho/BOLSA/TCC/first.R')
+library(GAS)
+install.packages("GAS")
+inSample <- dados[1:190,]
+outSample <- dados[190:nrow(dados)]
+outSample <- dados[190:nrow(dados),]
+mSample <- apply(inSample, 1, mean)
+mSample <- apply(inSample[,2:ncol(inSample)], 1, mean)
+cov(inSample[,2:ncol(inSample)])
+meanSample <- apply(inSample[,2:ncol(inSample)], 1, mean)
+matrixCovSample <- cov(inSample[,2:ncol(inSample)])
+source('~/Área de Trabalho/BOLSA/TCC/first.R')
+library(GAS)
+library(GAS)
+install.packages("GAS")
+library(GAS)
+library(survival, lib.loc = "/usr/lib/R/library")
+library(stats4, lib.loc = "/usr/lib/R/library")
+library(splines, lib.loc = "/usr/lib/R/library")
+library(spatial, lib.loc = "/usr/lib/R/library")
+library(rpart, lib.loc = "/usr/lib/R/library")
+library(Rcpp, lib.loc = "/usr/lib/R/site-library")
+library(pkgKitten, lib.loc = "/usr/lib/R/site-library")
+library(parallel, lib.loc = "/usr/lib/R/library")
+library(nnet, lib.loc = "/usr/lib/R/library")
+library(nlme, lib.loc = "/usr/lib/R/library")
+library(mgcv, lib.loc = "/usr/lib/R/library")
+library(Matrix, lib.loc = "/usr/lib/R/library")
+library(MASS, lib.loc = "/usr/lib/R/library")
+library(littler, lib.loc = "/usr/lib/R/site-library")
+library(KernSmooth, lib.loc = "/usr/lib/R/library")
+library(grid, lib.loc = "/usr/lib/R/library")
+library(foreign, lib.loc = "/usr/lib/R/library")
+library(boot, lib.loc = "/usr/lib/R/library")
+library(class, lib.loc = "/usr/lib/R/library")
+library(cluster, lib.loc = "/usr/lib/R/library")
+library(codetools, lib.loc = "/usr/lib/R/library")
+library(compiler, lib.loc = "/usr/lib/R/library")
+library(tcltk, lib.loc = "/usr/lib/R/library")
+library(tools, lib.loc = "/usr/lib/R/library")
+library(GAS)
+install.packages("GAS")
+library(GAS)
+source('~/Área de Trabalho/BOLSA/TCC/first.R')
+library(GAS)
+specf <- MultiGASSpec()
+fit <- MultiGASFit(GASSpec = specf, data = inSample[,2:ncol(inSample)] )
+#sim
+sim <- MultiGASSim(fit = fit, T.sim = 500)
+sim@GASDyn$dLLK
+sim@Data$Moments$cov
+meanSample <- apply(inSample[,2:ncol(inSample)], 2, mean)
+fit@Data$mY
+fit@Data$mY == inSample[,2:ncol(inSample)]
+meanGAS <- apply(fit@Data$mY, 2, mean)
+meanGAS <- apply(fit@Data$mY, 1, mean)
+meanGAS <- apply(fit@Estimates$Moments$mean, 1, mean)
+meanGAS <- apply(fit@Estimates$Moments$mean, 2, mean)
+fit@Estimates$Moments$mean
+fit@Estimates$Moments$cov
+sim@Data$Moments$mean
+sim@Data$Moments$cov
+sim@Data$Moments$cov == fit@Estimates$Moments$cov
+sim@Data$Moments$cov[1]
+sim@Data$Moments$cov[[1]]
+sim@Data$Moments$cov
+source('~/Área de Trabalho/BOLSA/TCC/first.R')
+source('~/Área de Trabalho/BOLSA/TCC/first.R')
+#otim--------
+CRRA <- function(w, M1, M2, v){
+muP <- t(w)%*%M1
+sig2P <- t(w)%*%M2%*%w
+m1P <- muP
+m2P <- sig2P + muP^2
+ut <- ( 1/(1-v) ) + m1P - (v * m2P/2)
+return(ut)
+}
+optim()
+w <- rep(0,6)
+w <- rep(0,ncol(inSample)-1)
+w <- rep(0, ncol(inSample)-1)
+CRRA <- function(w, M1, M2, v){
+muP <- t(w)%*%M1
+sig2P <- t(w)%*%M2%*%w
+m1P <- muP
+m2P <- sig2P + muP^2
+ut <- - (( 1/(1-v) ) + m1P - (v * m2P/2))
+return(ut)
+}
+optim(w, CRRA(M1 = meanSample, M2 = matrixCovSample, v = 5))
+optim(w, CRRA(w = w, M1 = meanSample, M2 = matrixCovSample, v = 5))
+optim(w, fn = CRRA(w = w, M1 = meanSample, M2 = matrixCovSample, v = 5))
+optim(w, fn = CRRA(M1 = meanSample, M2 = matrixCovSample, v = 5))
+optim(c(0,0,0,0,0,0), fn = CRRA(M1 = meanSample, M2 = matrixCovSample, v = 5))
+optim(c(0,0,0,0,0,0), fn = CRRA(w = w, M1 = meanSample, M2 = matrixCovSample, v = 5))
+optim(c(0,0,0,0,0,0), CRRA)
+CRRA <- function(w, M1, M2, v, ...){
+muP <- t(w)%*%M1
+sig2P <- t(w)%*%M2%*%w
+m1P <- muP
+m2P <- sig2P + muP^2
+ut <- - (( 1/(1-v) ) + m1P - (v * m2P/2))
+return(ut)
+}
+CRRA <- function(w, M1, M2, v,...){
+muP <- t(w)%*%M1
+sig2P <- t(w)%*%M2%*%w
+m1P <- muP
+m2P <- sig2P + muP^2
+ut <- - (( 1/(1-v) ) + m1P - (v * m2P/2))
+return(ut)
+}
+optim(c(0,0,0,0,0,0), CRRA( M1 = meanSample, M2 = matrixCovSample, v = 5))
+optim(par = c(0,0,0,0,0,0),
+fn = CRRA,
+M1 = meanSample,
+M2 = matrixCovSample,
+v = 5)
+optim(par = w,
+fn = CRRA,
+M1 = meanSample,
+M2 = matrixCovSample,
+v = 5)
+wOtim <- optim(par = w,
+fn = CRRA,
+M1 = meanSample,
+M2 = matrixCovSample,
+v = 5)
+wOtim <- optim(par = w,
+fn = CRRA,
+M1 = meanSample,
+M2 = matrixCovSample,
+v = 5)$par
+source('~/Área de Trabalho/BOLSA/TCC/first.R')
+fit
+#sim
+sim <- MultiGASSim(fit = fit, T.sim = 500)
+covGAS <- fit@Estimates$Inference
+covGAS
+covGAS <- fit@Estimates$Moments
+covGAS <- fit@Estimates$Moments$cov
+covGAS
+fit
+meanGAS <-
+covGAS <- fit@Estimates$Moments$cov[190]
+meanGAS <-
+covGAS <- fit@Estimates$Moments$cov[,,190]
+View(covGAS)
+meanGAS <- fit@Estimates$Moments$mea
+fit@Estimates$Moments$mean
+meanGAS <- fit@Estimates$Moments$mean[190,]
+wOtim <- optim(par = w,
+fn = CRRA,
+M1 = meanGAS,
+M2 = covGAS,
+v = 5)$par
+wOtim
+sum(wOtim)
+install.packages("quadprog")
+library(quadprog)
+uns <- rep(1, 6)
+otim <- solve.QP(covGAS, meanGAS, uns, 1 )
+meanGAS
+uns <-as.matrix(rep(1, 6))
+otim <- solve.QP(covGAS, meanGAS, uns, 1 )
+otim
+otim <- solve.QP(covGAS, meanGAS, uns, 1 )$solution
+sum(otim)
+otim
+sum(otim*outSample[1, 2:7])
+mean(outSample[1, 2:7])
+mean(outSample[1, 2:7])
+outSample[1, 2:7]
+mean(outSample[1, 2:7])
+sum(outSample[1, 2:7])/6
+str(dados)
+str(outSample)
+sovel.QP()
+solve.QP()
+source('~/Área de Trabalho/BOLSA/TCC/first.R')
+suppressWarnings(library(CVXR, warn.conflicts=FALSE))
+install.packages("CVXR")
+suppressWarnings(library(CVXR, warn.conflicts=FALSE))
+source('~/Área de Trabalho/BOLSA/TCC/first.R')
+install.packages("CVXR")
