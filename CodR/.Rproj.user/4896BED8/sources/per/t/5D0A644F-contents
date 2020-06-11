@@ -11,8 +11,8 @@ specf <- MultiGASSpec(Dist = "mvt")
 for (i in 1: window) {
   i = i
   j = i + window
-  est <- estGAS(specf = specf, data = data, i = 1, 
-                j = 120, nWin = window)
+  est <- estGAS(specf = specf, data = data, i = i, 
+                j = j, nWin = window)
   mean <- est[[1]]
   cov <- est[[2]]
   returnPortGASt <- c(returnPortGASt, 

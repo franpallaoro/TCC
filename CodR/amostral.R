@@ -18,3 +18,4 @@ for (i in 1: window) {
                                 data = data, j = j))
 }
 
+system("xdg-open 'https://www.youtube.com/watch?v=TOamHghGCfg'")

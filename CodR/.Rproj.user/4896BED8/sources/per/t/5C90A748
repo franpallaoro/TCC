@@ -1,9 +1,9 @@
 {
     "id": "5C90A748",
-    "path": "~/Área de Trabalho/TCC /CODIGOS/estimacaoGAS.R",
+    "path": "~/TCC/CodR/estimacaoGAS.R",
     "project_path": "estimacaoGAS.R",
     "type": "r_source",
-    "hash": "3309864461",
+    "hash": "932027955",
     "contents": "",
     "dirty": false,
     "created": 1591482245013.0,
@@ -15,11 +15,11 @@
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1591493711,
+    "lastKnownWriteTime": 1591663861,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1591493711899,
+    "last_content_update": 1591663861,
     "read_only": false,
     "read_only_alternatives": []
 }

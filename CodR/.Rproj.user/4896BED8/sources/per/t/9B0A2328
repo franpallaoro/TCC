@@ -1,9 +1,9 @@
 {
     "id": "9B0A2328",
-    "path": "~/Área de Trabalho/TCC /CODIGOS/amostral.R",
+    "path": "~/TCC/CodR/amostral.R",
     "project_path": "amostral.R",
     "type": "r_source",
-    "hash": "2729466812",
+    "hash": "3746496644",
     "contents": "",
     "dirty": false,
     "created": 1591484437788.0,
@@ -11,15 +11,15 @@
     "relative_order": 7,
     "properties": {
         "tempName": "Untitled1",
-        "cursorPosition": "12,12",
-        "scrollLine": "1"
+        "cursorPosition": "20,0",
+        "scrollLine": "5"
     },
     "folds": "",
-    "lastKnownWriteTime": 1591493244,
+    "lastKnownWriteTime": 1591824549,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1591493244201,
+    "last_content_update": 1591824549369,
     "read_only": false,
     "read_only_alternatives": []
 }

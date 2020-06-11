@@ -1,9 +1,9 @@
 {
     "id": "5D0A644F",
-    "path": "~/Área de Trabalho/TCC /CODIGOS/GASt.R",
+    "path": "~/TCC/CodR/GASt.R",
     "project_path": "GASt.R",
     "type": "r_source",
-    "hash": "1268896685",
+    "hash": "869343644",
     "contents": "",
     "dirty": false,
     "created": 1591498378052.0,
@@ -12,14 +12,14 @@
     "properties": {
         "tempName": "Untitled1",
         "cursorPosition": "24,64",
-        "scrollLine": "9"
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1591504705,
+    "lastKnownWriteTime": 1591663861,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1591504705549,
+    "last_content_update": 1591663861,
     "read_only": false,
     "read_only_alternatives": []
 }

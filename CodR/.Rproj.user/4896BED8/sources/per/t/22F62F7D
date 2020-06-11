@@ -1,9 +1,9 @@
 {
     "id": "22F62F7D",
-    "path": "~/Área de Trabalho/TCC /CODIGOS/GASnormal.R",
+    "path": "~/TCC/CodR/GASnormal.R",
     "project_path": "GASnormal.R",
     "type": "r_source",
-    "hash": "541784744",
+    "hash": "3926209592",
     "contents": "",
     "dirty": false,
     "created": 1591490229981.0,
@@ -16,11 +16,11 @@
         "docOutlineVisible": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1591504685,
+    "lastKnownWriteTime": 1591663861,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1591504686232,
+    "last_content_update": 1591663861,
     "read_only": false,
     "read_only_alternatives": []
 }
