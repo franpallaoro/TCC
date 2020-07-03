@@ -1,13 +1,45 @@
 
-data <- read.csv('6_Portfolios_2x3.CSV', header = T)
-data <- data[,-1]
-window <- 120
+
+window <- 200
+
+#6portfolio --------------------------------
+
+data <- read.csv('data6.csv', header = T, na.strings = "NA")
+data$date <- as.Date(paste0(as.character(data$date), '01'), format='%Y%m%d')
+data <- data[data$date >= "1998-01-01" &  data$date <="2019-12-01", -1]
 N <- ncol(data)
-returnPortEW <- vector()
+returnPortEW6 <- vector()
 
-
-for (i in 1: window) {
+for (i in 1:(nrow(data) - window)) {
   i = i
   j = i + window
-  returnPortEW <- sum(data[j+1,])/N
+  returnPortEW6 <- c(returnPortEW, sum(data[j+1,])/N)
+}
+
+#25 portfolio ---------------------------------
+
+data <- read.csv('data25.csv', header = T, na.strings = "NA")
+data$date <- as.Date(paste0(as.character(data$date), '01'), format='%Y%m%d')
+data <- data[data$date >= "1998-01-01" &  data$date <="2019-12-01", -1]
+N <- ncol(data)
+returnPortEW25 <- vector()
+
+for (i in 1:(nrow(data) - window)) {
+  i = i
+  j = i + window
+  returnPortEW25 <- c(returnPortEW, sum(data[j+1,])/N)
+}
+
+#100 portfolio ------------------------------
+
+data <- read.csv('data100.csv', header = T, na.strings = "NA")
+data$date <- as.Date(paste0(as.character(data$date), '01'), format='%Y%m%d')
+data <- data[data$date >= "1998-01-01" &  data$date <="2019-12-01", -1]
+N <- ncol(data)
+returnPortEW100 <- vector()
+
+for (i in 1:(nrow(data) - window)) {
+  i = i
+  j = i + window
+  returnPortEW100 <- c(returnPortEW, sum(data[j+1,])/N)
 }
