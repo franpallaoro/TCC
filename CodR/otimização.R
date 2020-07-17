@@ -21,7 +21,7 @@ optimWMeanVar <- function(N, mean, cov, v, ...){
   
   w <- Variable(N)
   r <- quad_form(w, cov)
-  objective <- Maximize( r - (t(mean)%*%w)  )
+  objective <- Minimize( r - ((1/v) * t(mean)%*%w))
   
   constraints <- list(w >= 0, sum(w) == 1)
   problem <- Problem(objective, constraints)
@@ -35,9 +35,9 @@ optimWMeanVar <- function(N, mean, cov, v, ...){
 optimWMinVar <- function(N, mean, cov, v, ...){
   library(CVXR)
   
-  w <- Variable(6)
+  w <- Variable(N)
   r <- quad_form(w, cov)
-  objective <- Maximize( quad_form(w, cov) )
+  objective <- Minimize(r)
   
   constraints <- list(w >= 0, sum(w) == 1)
   problem <- Problem(objective, constraints)

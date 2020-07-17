@@ -16,7 +16,7 @@ returnPortGASt6CRRA <- vector()
 returnPortGASt6MeanVar <- vector()
 returnPortGASt6MinVar <- vector()
 
-for (i in 1:(nrow(data) - window)) {
+for (i in 38:(nrow(data) - window)) {
   i = i
   j = i + window
   est <- estGAS(specf = specf, data = data, i = i, 

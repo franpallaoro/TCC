@@ -49,7 +49,8 @@ for (i in 1:(nrow(data) - window)) {
 
 data <- read.csv('data25.csv', header = T, na.strings = "NA")
 data$date <- as.Date(paste0(as.character(data$date), '01'), format='%Y%m%d')
-data <- data[data$date >= "2000-01-01" &  data$date <="2019-12-01", -1]
+data <- data[data$date >= "1998-01-01" &  data$date <="2019-12-01", -1]
+N <- ncol(data)
 returnPortSample25CRRA <- vector()
 returnPortSample25MeanVar <- vector()
 returnPortSample25MinVar <- vector()
@@ -88,6 +89,8 @@ for (i in 1:(nrow(data) - window)) {
 data <- read.csv('data100.csv', header = T, na.strings = "NA")
 data$date <- as.Date(paste0(as.character(data$date), '01'), format='%Y%m%d')
 data <- data[data$date >= "2000-01-01" &  data$date <="2019-12-01", -1]
+N <- ncol(data)
+data <- apply(data, 2, as.numeric)
 returnPortSample100CRRA <- vector()
 returnPortSample100MeanVar <- vector()
 returnPortSample100MinVar <- vector()

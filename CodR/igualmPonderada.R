@@ -13,7 +13,7 @@ returnPortEW6 <- vector()
 for (i in 1:(nrow(data) - window)) {
   i = i
   j = i + window
-  returnPortEW6 <- c(returnPortEW, sum(data[j+1,])/N)
+  returnPortEW6 <- c(returnPortEW6, sum(data[j+1,])/N)
 }
 
 #25 portfolio ---------------------------------
@@ -27,7 +27,7 @@ returnPortEW25 <- vector()
 for (i in 1:(nrow(data) - window)) {
   i = i
   j = i + window
-  returnPortEW25 <- c(returnPortEW, sum(data[j+1,])/N)
+  returnPortEW25 <- c(returnPortEW25, sum(data[j+1,])/N)
 }
 
 #100 portfolio ------------------------------
@@ -41,5 +41,5 @@ returnPortEW100 <- vector()
 for (i in 1:(nrow(data) - window)) {
   i = i
   j = i + window
-  returnPortEW100 <- c(returnPortEW, sum(data[j+1,])/N)
+  returnPortEW100 <- c(returnPortEW100, sum(data[j+1,])/N)
 }

@@ -13,6 +13,8 @@ data$date <- as.Date(paste0(as.character(data$date), '01'), format='%Y%m%d')
 data <- data[data$date >= "1998-01-01" &  data$date <="2019-12-01", -1]
 N <- ncol(data)
 returnPortGASnormal6CRRA <- vector()
+returnPortGASnormal6MeanVar <- vector()
+returnPortGASnormal6MinVar <- vector()
 
 for (i in 1:(nrow(data) - window)) {
   i = i
@@ -50,6 +52,8 @@ data <- read.csv('data25.csv', header = T, na.strings = "NA")
 data$date <- as.Date(paste0(as.character(data$date), '01'), format='%Y%m%d')
 data <- data[data$date >= "2000-01-01" &  data$date <="2019-12-01", -1]
 returnPortGASnormal25CRRA <- vector()
+returnPortGASnormal25MeanVar <- vector()
+returnPortGASnormal25MinVar <- vector()
 
 for (i in 1:(nrow(data) - window)) {
   i = i
@@ -83,10 +87,13 @@ for (i in 1:(nrow(data) - window)) {
 
 
 #100 portfolio -------------------------
+
 data <- read.csv('data100.csv', header = T, na.strings = "NA")
 data$date <- as.Date(paste0(as.character(data$date), '01'), format='%Y%m%d')
 data <- data[data$date >= "2000-01-01" &  data$date <="2019-12-01", -1]
 returnPortGASnormal100CRRA <- vector()
+returnPortGASnormal100MeanVar <- vector()
+returnPortGASnormal100MinVar <- vector()
 
 for (i in 1:(nrow(data) - window)) {
   i = i
