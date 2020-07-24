@@ -12,7 +12,7 @@ returnPortEW6 <- vector()
 
 for (i in 1:(nrow(data) - window)) {
   i = i
-  j = i + window
+  j = i + window-1
   returnPortEW6 <- c(returnPortEW6, sum(data[j+1,])/N)
 }
 

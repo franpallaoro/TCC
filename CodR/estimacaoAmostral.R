@@ -3,3 +3,4 @@ estSample <- function(data,i,j,...){
   matrixCovSample <- cov(data[i:j,])
   return(list(mean = meanSample, matrixCov = matrixCovSample))
 }
+

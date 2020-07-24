@@ -15,35 +15,36 @@ N <- ncol(data)
 returnPortSample6CRRA <- vector()
 returnPortSample6MeanVar <- vector()
 returnPortSample6MinVar <- vector()
+wOptimSample6CRRA <- matrix(NA, nrow = (nrow(data) - window), ncol = N)
+wOptimSample6MinVar <- matrix(NA, nrow = (nrow(data) - window), ncol = N)
+wOptimSample6MeanVar <- matrix(NA, nrow = (nrow(data) - window), ncol = N)
+l <- nrow(data) - window
 
-for (i in 1:(nrow(data) - window)) {
+for (i in 1:l) {
   i = i
-  j = i + window
+  j = i + window-1
   est <- estSample(data = data, i = i, j = j)
   mean <- est[[1]]
   cov <- est[[2]]
   
+  wOptimSample6CRRA[i,] <- optimWCRRA(N = N, mean = mean, cov = cov, v = v)
   returnPortSample6CRRA <- c(returnPortSample6CRRA, 
-                            returnP(wOptim = optimWCRRA(N = N, 
-                                                        mean = mean, 
-                                                        cov = cov, v = v),
+                            returnP(wOptim =wOptimSample6CRRA[i,],
                                     data = data, j = j))
   
+  wOptimSample6MeanVar[i,] <- optimWMeanVar(N = N, mean = mean, 
+                                            cov = cov, v = v)
   returnPortSample6MeanVar <- c(returnPortSample6MeanVar, 
-                                returnP(wOptim = optimWMeanVar(N = N, 
-                                                              mean = mean, 
-                                                              cov = cov, 
-                                                              v = v),
+                                returnP(wOptim = wOptimSample6MeanVar[i,],
                                         data = data, j = j))
   
+  wOptimSample6MinVar[i,] <- optimWMinVar(N = N, mean = mean, cov = cov, v = v)
   returnPortSample6MinVar <- c(returnPortSample6MinVar, 
-                              returnP(wOptim = optimWMinVar(N = N, 
-                                                            mean = mean, 
-                                                            cov = cov, 
-                                                            v = v),
+                              returnP(wOptim = wOptimSample6MinVar[i,],
                                       data = data, j = j))
 }
 
+system("xdg-open 'https://www.youtube.com/watch?v=lPPhb49rrRk'")
 
 # 25 portfolio -----------------------------
 

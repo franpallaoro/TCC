@@ -15,33 +15,32 @@ N <- ncol(data)
 returnPortGASt6CRRA <- vector()
 returnPortGASt6MeanVar <- vector()
 returnPortGASt6MinVar <- vector()
+wOptimGASt6CRRA <- matrix(NA, nrow = (nrow(data) - window), ncol = N)
+wOptimGASt6MinVar <- matrix(NA, nrow = (nrow(data) - window), ncol = N)
+wOptimGASt6MeanVar <- matrix(NA, nrow = (nrow(data) - window), ncol = N)
+l <- nrow(data) - window
 
-for (i in 38:(nrow(data) - window)) {
+for (i in 1:l) {
   i = i
-  j = i + window
+  j = i + window-1
   est <- estGAS(specf = specf, data = data, i = i, 
                 j = j, nWin = window)
   mean <- est[[1]]
   cov <- est[[2]]
   
+  wOptimGASt6CRRA[i,] <- optimWCRRA(N = N, mean = mean, cov = cov, v = v)
   returnPortGASt6CRRA <- c(returnPortGASt6CRRA, 
-                                returnP(wOptim = optimWCRRA(N = N, 
-                                                            mean = mean, 
-                                                            cov = cov, v = v),
+                                returnP(wOptim = wOptimGASt6CRRA[i,],
                                         data = data, j = j))
   
+  wOptimGASt6MeanVar[i,] <- optimWMeanVar(N = N, mean = mean, cov = cov, v = v)
   returnPortGASt6MeanVar <- c(returnPortGASt6MeanVar, 
-                                   returnP(wOptim = optimWMeanVar(N = N, 
-                                                                  mean = mean, 
-                                                                  cov = cov, 
-                                                                  v = v),
+                                   returnP(wOptim = wOptimGASt6MeanVar[i,],
                                            data = data, j = j))
   
+  wOptimGASt6MinVar[i,] <- optimWMinVar(N = N, mean = mean, cov = cov, v = v)
   returnPortGASt6MinVar <- c(returnPortGASt6MinVar, 
-                                  returnP(wOptim = optimWMinVar(N = N, 
-                                                                mean = mean, 
-                                                                cov = cov, 
-                                                                v = v),
+                                  returnP(wOptim = wOptimGASt6MinVar[i,],
                                           data = data, j = j))
 }
 

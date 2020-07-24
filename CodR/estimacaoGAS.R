@@ -1,6 +1,7 @@
-estGAS <- function(specf, data, i, j, nWin, ...){
+estGAS <- function(specf, data, i, j, ...){
   fit <- MultiGASFit(GASSpec = specf, data = data[i:j,])
-  meanGAS <- fit@Estimates$Moments$mean[nWin,]
-  matrixCovGAS <- fit@Estimates$Moments$cov[,,nWin]  
+  n <- nrow(fit@Estimates$Moments$mean)
+  meanGAS <- fit@Estimates$Moments$mean[n,]
+  matrixCovGAS <- fit@Estimates$Moments$cov[,,n]  
   return(list(mean = meanGAS, matrixCov = matrixCovGAS))
 }
