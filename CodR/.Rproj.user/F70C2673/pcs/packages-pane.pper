@@ -1,7 +1,0 @@
-{
-    "installOptions": {
-        "installFromRepository": true,
-        "libraryPath": "/home/franciele/R/x86_64-pc-linux-gnu-library/3.4",
-        "installDependencies": true
-    }
-}
