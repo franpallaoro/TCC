@@ -1,3 +1,5 @@
+a <- Sys.time()
+
 #import data and gather T and N
 u_mat      = read.csv('Testdata.csv', header = F)
 u_mat[,1]  = NULL
@@ -100,23 +102,48 @@ Rt_sample_vech = Sym2Vech(G,t(Rt_Block))
 Moment_based_omega_LT_FC_Optim <- function(G, params, rho_vec_sample_bl_vech) {
   Moment_based_omega_LT_FC(G = G, params = params, rho_vec_sample_bl_vech = Rt_sample_vech)[[1]]
 }
-step1 = fmincon(x0 = para_start_Mf_LT_1, fn = Moment_based_omega_LT_FC_Optim, 
-                lb = Lb_Mf_LT_1, ub = Rb_Mf_LT_1, maxfeval = MaxFunEvals, maxiter = MaxIter,
-                G = G, rho_vec_sample_bl_vech = Rt_sample_vech)
+
+step1 = fmincon(
+  x0 = para_start_Mf_LT_1,
+  fn = Moment_based_omega_LT_FC_Optim,
+  lb = Lb_Mf_LT_1,
+  ub = Rb_Mf_LT_1,
+  maxfeval = MaxFunEvals,
+  maxiter = MaxIter,
+  G = G,
+  rho_vec_sample_bl_vech = Rt_sample_vech
+)
+
 f_bar = step1$par
 
 # step 2: ML (t copula) given f_bar
 LogLik_Copula_LT_factor_given_omega_Optim <- function(N,T,params,f_hat_vec,u_mat,asset_group_vec,n_vec,ind_t_dist,ind_Rt){
   LogLik_Copula_LT_factor_given_omega(N,T,params,f_bar,u_mat,asset_group_vec,n_vec,1,0)[[1]]
 }
-step2 = fmincon(x0 = para_start_Mf_LT_2, fn = LogLik_Copula_LT_factor_given_omega_Optim, 
-                lb = Lb_Mf_LT_2, ub = Rb_Mf_LT_2, maxfeval = MaxFunEvals, maxiter = MaxIter,
-                N = N, T = T, f_hat_vec = f_bar, u_mat = u_mat, asset_group_vec = asset_group_vec, 
-                n_vec = n_vec, ind_t_dist = 1, ind_Rt = 0)
+
+step2 = fmincon(
+  x0 = para_start_Mf_LT_2,
+  fn = LogLik_Copula_LT_factor_given_omega_Optim,
+  lb = Lb_Mf_LT_2,
+  ub = Rb_Mf_LT_2,
+  maxfeval = MaxFunEvals,
+  maxiter = MaxIter,
+  N = N,
+  T = T,
+  f_hat_vec = f_bar,
+  u_mat = u_mat,
+  asset_group_vec = asset_group_vec,
+  n_vec = n_vec,
+  ind_t_dist = 1,
+  ind_Rt = 0
+)
 
 
 
 # used to print the results
 theta_opt = step2[[1]]
 max_LogLik = -step2[[2]]
-            
+
+b <- Sys.time()
+
+print(b - a)

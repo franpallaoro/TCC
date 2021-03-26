@@ -6,7 +6,7 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
   
   A_vec  = params[1]
   B_vec  = params[2]
-  omega_vec = (1-B_vec)%*%t(f_hat_vec)
+  omega_vec = sum((1-B_vec) * f_hat_vec) 
   
   if (ind_t_dist == 1){
     end = length(params)
@@ -103,7 +103,7 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
         g_i_c           = g_vec_cum[i]
         denom_f_vec     = denom_f_vec + S_l_mat[,i:G]%*%f_t_vec_2[teller_i:g_i_c]  # Based on (F.19) and used repeatedly. 
         denom_f_un      = denom_f_un + c(matrix(0, nrow = i-1, ncol = 1), f_t_vec_2[teller_i:g_i_c])  # This is (F.21) and used repeatedly.
-        f_prime_mat_t[,i]  = S_l_mat[,i:G]%*%f_t_vec[teller_i:g_i_c]
+        f_prime_mat_t[,i]  = S_l_mat[,i:G]%*%f_t_vec[teller_i:g_i_c] 
         f_prime_mat_tg[,i] = c(matrix(0, nrow = i-1, ncol = 1), f_t_vec[teller_i:g_i_c])
         teller_i            = g_i_c+1
       }else{
@@ -119,17 +119,17 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
    
     # Step 1b: compute the correlation matrix (if ind_Rt=1) and its
     #          inverse and determinant
-    denom_f_mat             = denom_f_vec%*%matrix(1, nrow = 1,ncol = k)
-    lambda_til_prime_mat_t  = f_prime_mat_t/sqrt(denom_f_mat)
+    denom_f_mat             = matrix(denom_f_vec, nrow = 1,ncol = k) 
+    lambda_til_prime_mat_t  = f_prime_mat_t / sqrt(denom_f_mat)
     sigma_2_vec_t           = (1/denom_f_vec)
     aux_Compute_R_t_inv_and_det_R_t_L_matrix = Compute_R_t_inv_and_det_R_t_L_matrix(sigma_2_vec_t,lambda_til_prime_mat_t)
     R_inv_t                 = as.matrix(aux_Compute_R_t_inv_and_det_R_t_L_matrix[[1]])
     det_R_t                 = aux_Compute_R_t_inv_and_det_R_t_L_matrix[[2]]
     Flag                    = aux_Compute_R_t_inv_and_det_R_t_L_matrix[[3]]
     if(ind_Rt==1){
-      denom_f_mat_tg          = denom_f_un%*%matrix(1,1,G)
+      denom_f_mat_tg          = matrix(denom_f_un,1,G) 
       L_tilde_prime_mat_tg    = f_prime_mat_tg/sqrt(denom_f_mat_tg)
-      Rt_Block                = L_tilde_prime_mat_tg%*%t(L_tilde_prime_mat_tg)
+      Rt_Block                = L_tilde_prime_mat_tg %*% t(L_tilde_prime_mat_tg)
       R_mat[,,j] = Rt_Block
     }
     
@@ -155,7 +155,7 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
       }else{
         coef_R_2 = 0.5 
       }
-      R_2 = R_inv_x%*% t(R_inv_x)  # outer product: R^{-1} x(t) x(t)' R^{-1}
+      R_2 = R_inv_x %*% t(R_inv_x)  # outer product: R^{-1} x(t) x(t)' R^{-1}
       
       # dau_log_c_dau_vec_R
       A_mat = as.numeric(coef_R_2) * R_2 + coef_R_1 * R_inv_t 
@@ -204,7 +204,7 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
                     
       #(F.20)
       dau_L_tilde_dau_f_mat =  dau_L_tilde_dau_lambda_tilde%*%dau_lambda_tilde_dau_f_mat;
-                    
+                   
                     
       # (F.24)                                         
       dau_D_dau_f_mat = S_l_mat%*%dau_sigma2_dau_f_mat
@@ -248,7 +248,7 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
       loglike_vec = loglike_vec + log(gamma(0.5*(nu+N))) + (N-1)*log(gamma(nu/2)) - N * log(gamma(0.5*(nu+1))) + 0.5*(nu+1)*rowSums(log(matrix(1,T,N)+(1/(nu-2))*x_mat^2))
 
     }else{
-      loglike_vec = loglike_vec + 0.5*rowSums(x_mat^2)
+      loglike_vec = loglike_vec + 0.5 * rowSums(x_mat^2)
     }
     
     LLF = -sum(loglike_vec)
@@ -256,8 +256,15 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
     LLF = 1e14
   }
   
-  return(list("LLF" = LLF, "loglike_vec" = loglike_vec, 
-              "R_mat" = R_mat, "s_mat" = s_mat, "f_mat" = f_mat))
+  return(
+    list(
+      "LLF" = LLF,
+      "loglike_vec" = loglike_vec,
+      "R_mat" = R_mat,
+      "s_mat" = s_mat,
+      "f_mat" = f_mat
+    )
+  )
 }
 
 

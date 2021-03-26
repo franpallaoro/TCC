@@ -36,15 +36,15 @@ Moment_based_omega_LT_FC = function(G, params, rho_vec_sample_bl_vech){ # functi
   }
   
   
-  denom_f_mat_g            = denom_f_vec_g%*%t(rep(1, G))#denom_f_vec_g*ones(1,G);
+  denom_f_mat_g            = matrix(denom_f_vec_g, 1, G) #denom_f_vec_g*ones(1,G); 
   L_tilde_prime_mat_t      = f_prime_mat_t/sqrt(denom_f_mat_g)#f_prime_mat_t./sqrt(denom_f_mat_g);
-  L_tilde_prime_L_tilde    = L_tilde_prime_mat_t %*% t(L_tilde_prime_mat_t)#L_tilde_prime_mat_t * L_tilde_prime_mat_t';
+  L_tilde_prime_L_tilde    = L_tilde_prime_mat_t %*% t(L_tilde_prime_mat_t)#L_tilde_prime_mat_t * L_tilde_prime_mat_t'; 
   vech_FC                  = Sym2Vech(G,L_tilde_prime_L_tilde)#Admin.Sym2Vech(G,L_tilde_prime_L_tilde); #fun?ao do admin
   
   # compute the Frobenius norm of the difference between the sample
   # moments and the model-implied moments
   dist_vec = vech_FC - rho_vec_sample_bl_vech #vech_FC - rho_vec_sample_bl_vech;
-  dist_sq  = t(dist_vec)%*%dist_vec #dist_vec'*dist_vec;
+  dist_sq  = sum(dist_vec^2) #dist_vec'*dist_vec; 
   
   return(list("dist_sq" = dist_sq, "L_tilde_prime_L_tilde" = L_tilde_prime_L_tilde))         
 }

@@ -1,6 +1,6 @@
 Compute_BLOCK_correlation_matrix = function(x_mat, n_vec){ #function [Rho_block_mat,Rt_Block] = Compute_BLOCK_correlation_matrix(x_mat, n_vec)
-# build a G times G block correlatoin matrix where
-# entry (i,j) (i not equal to j) means the average beween
+# build a G times G block correlation matrix where
+# entry (i,j) (i not equal to j) means the average between
 # correlation between industry i and j
 # and entry (i,i) indicates the average WITHIN correlation of
 # industry i.
@@ -20,7 +20,8 @@ for (i in 1:G) {
   n_i = n_vec[i]
   Rt_mat_ii = Rt_mat[teller_i:(teller_i+n_i-1),teller_i:(teller_i+n_i-1)]
   if (n_i>1){
-    rho_ii = as.numeric((t(matrix(1, n_i, 1))%*%Rt_mat_ii%*%matrix(1, n_i, 1) - n_i)/(n_i*(n_i-1)))
+    # rho_ii = as.numeric((t(matrix(1, n_i, 1))%*%Rt_mat_ii%*%matrix(1, n_i, 1) - n_i)/(n_i*(n_i-1))) # duvida
+    rho_ii = as.numeric(sum(Rt_mat_ii) - n_i)/(n_i*(n_i-1))
     
   }else{
     rho_ii = 0
