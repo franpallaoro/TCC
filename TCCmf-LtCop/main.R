@@ -86,7 +86,7 @@ max_LogLik = -step2[[2]]
 sim = list()
 nsim = 500
 for (i in 1:nsim) {
- sim[[i]] = Sim_u_mat(N+1, G, T, theta_opt, n_vec, 1, 0, f_bar)
+ sim[[i]] = Sim_u_mat(N, G, T+1, theta_opt, n_vec, 1, 0, f_bar)
  print(i)
 }
 u_mat_sim = Reduce(`+`, sim) / length(sim)
@@ -121,3 +121,4 @@ step2_sim = fmincon(x0 = para_start_Mf_LT_2, fn = LogLik_Copula_LT_factor_given_
                 lb = Lb_Mf_LT_2, ub = Rb_Mf_LT_2, maxfeval = MaxFunEvals, maxiter = MaxIter,
                 N = N, T = T, f_hat_vec = f_bar_sim, u_mat = u_mat_sim, asset_group_vec = asset_group_vec, 
                 n_vec = n_vec, ind_t_dist = 1, ind_Rt = 0)
+

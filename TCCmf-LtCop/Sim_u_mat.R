@@ -1,4 +1,4 @@
-Sim_x_mat = function(N, G, T, params, n_vec, ind_t_dist, ind_Rt, f_hat_vec){
+Sim_u_mat = function(N, G, T, params, n_vec, ind_t_dist, ind_Rt, f_hat_vec){
 #entrar com A B omega e nu
 #entrar com x inicial sefor 0 não precisa
 #entrar com indicadora se é t ou gaussian
@@ -234,17 +234,14 @@ for(j in 1:T){
     
     }
   }
-return(x_mat)
+if (ind_t_dist == 1){
+  x_mat_0 = x_mat/sqrt((nu-2)/nu) #aqui ta certo isso?
+  u_mat   = pt(x_mat_0, nu)
+}else{
+  u_mat   = pnorm(x_mat)
+}
+return(u_mat)
 
 }
   
-  #como transformar x_mat em PIT, inversa???
-  
-  # if (ind_t_dist == 1){
-  #   end = length(params)
-  #   nu      = params[end] #parametro da inversa gamma
-  #   x_mat_0 = qt(u_mat, nu) 
-  #   x_mat   = sqrt((nu-2)/nu) * x_mat_0
-  # }else{
-  #   x_mat   = qnorm(u_mat)
-  # }
+
