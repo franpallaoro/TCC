@@ -24,7 +24,7 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
   if(ind_Rt==1){
     R_mat   = array(0, dim = c(G, G, T)) 
   }else{
-    R_mat   = vector() #nao sei 
+    R_mat   = vector() 
   }
   
   
@@ -39,7 +39,7 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
   }
   
   
-  S_l_mat    = Compute_S_l_matrix(asset_group_vec_new)[[1]] #função que retorna duas matrizes mas aqui ta pedindo só uma??
+  S_l_mat    = Compute_S_l_matrix(asset_group_vec_new)[[1]] 
   
   Ind_lambda_to_group_vec = vector()
   for(i in 1:G){
@@ -50,7 +50,7 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
   # we are now ready to build "dau_L_tilde_dau_lambda_tilde"
   dau_L_tilde_dau_lambda_tilde = matrix(0, nrow = N*k, ncol = p)
   
-  ind_match_lambda_group_cell = matrix(list(), G, 1) #oq substituir
+  ind_match_lambda_group_cell = matrix(list(), G, 1) 
   
   
   for(i in 1:G){
