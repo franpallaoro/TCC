@@ -108,44 +108,44 @@ b <- Sys.time()
 
 print(b - a)
 
-#simulação 
+# #simulação 
 
-sim = list()
-nsim = 500
-for (i in 1:nsim) {
- sim[[i]] = Sim_u_mat(N, G, T+1, theta_opt, n_vec, 1, 0, f_bar)
- print(i)
-}
-u_mat_sim = Reduce(`+`, sim) / length(sim)
-u_mat_sim = u_mat_sim[-1,]          
-u_mat_sim = as.matrix(u_mat_sim)
-T          = dim(u_mat_sim)[1]
-N          = dim(u_mat_sim)[2]
+# sim = list()
+# nsim = 500
+# for (i in 1:nsim) {
+#  sim[[i]] = Sim_u_mat(N, G, T+1, theta_opt, n_vec, 1, 0, f_bar)
+#  print(i)
+# }
+# u_mat_sim = Reduce(`+`, sim) / length(sim)
+# u_mat_sim = u_mat_sim[-1,]          
+# u_mat_sim = as.matrix(u_mat_sim)
+# T          = dim(u_mat_sim)[1]
+# N          = dim(u_mat_sim)[2]
 
-n_vec           = matrix(10,10,1)            
-asset_group_vec = kronecker(t(1:10),matrix(1,10,1))
-G               = max(asset_group_vec)    
-
-
-x_mat    = qnorm(u_mat_sim)#norminv(u_mat);
-Rt_Block = Compute_BLOCK_correlation_matrix(x_mat,n_vec)[[1]]
-Rt_sample_vech = Sym2Vech(G,t(Rt_Block))
+# n_vec           = matrix(10,10,1)            
+# asset_group_vec = kronecker(t(1:10),matrix(1,10,1))
+# G               = max(asset_group_vec)    
 
 
-Moment_based_omega_LT_FC_Optim <- function(G, params, rho_vec_sample_bl_vech) {
-  Moment_based_omega_LT_FC(G = G, params = params, rho_vec_sample_bl_vech = Rt_sample_vech)[[1]]
-}
-step1_sim = fmincon(x0 = para_start_Mf_LT_1, fn = Moment_based_omega_LT_FC_Optim, 
-                lb = Lb_Mf_LT_1, ub = Rb_Mf_LT_1, maxfeval = MaxFunEvals, maxiter = MaxIter,
-                G = G, rho_vec_sample_bl_vech = Rt_sample_vech)
-f_bar_sim = step1_sim$par
+# x_mat    = qnorm(u_mat_sim)#norminv(u_mat);
+# Rt_Block = Compute_BLOCK_correlation_matrix(x_mat,n_vec)[[1]]
+# Rt_sample_vech = Sym2Vech(G,t(Rt_Block))
 
 
-LogLik_Copula_LT_factor_given_omega_Optim <- function(N,T,params,f_hat_vec,u_mat,asset_group_vec,n_vec,ind_t_dist,ind_Rt){
-  LogLik_Copula_LT_factor_given_omega(N,T,params,f_bar_sim,u_mat_sim,asset_group_vec,n_vec,1,0)[[1]]
-}
-step2_sim = fmincon(x0 = para_start_Mf_LT_2, fn = LogLik_Copula_LT_factor_given_omega_Optim, 
-                lb = Lb_Mf_LT_2, ub = Rb_Mf_LT_2, maxfeval = MaxFunEvals, maxiter = MaxIter,
-                N = N, T = T, f_hat_vec = f_bar_sim, u_mat = u_mat_sim, asset_group_vec = asset_group_vec, 
-                n_vec = n_vec, ind_t_dist = 1, ind_Rt = 0)
+# Moment_based_omega_LT_FC_Optim <- function(G, params, rho_vec_sample_bl_vech) {
+#   Moment_based_omega_LT_FC(G = G, params = params, rho_vec_sample_bl_vech = Rt_sample_vech)[[1]]
+# }
+# step1_sim = fmincon(x0 = para_start_Mf_LT_1, fn = Moment_based_omega_LT_FC_Optim, 
+#                 lb = Lb_Mf_LT_1, ub = Rb_Mf_LT_1, maxfeval = MaxFunEvals, maxiter = MaxIter,
+#                 G = G, rho_vec_sample_bl_vech = Rt_sample_vech)
+# f_bar_sim = step1_sim$par
+
+
+# LogLik_Copula_LT_factor_given_omega_Optim <- function(N,T,params,f_hat_vec,u_mat,asset_group_vec,n_vec,ind_t_dist,ind_Rt){
+#   LogLik_Copula_LT_factor_given_omega(N,T,params,f_bar_sim,u_mat_sim,asset_group_vec,n_vec,1,0)[[1]]
+# }
+# step2_sim = fmincon(x0 = para_start_Mf_LT_2, fn = LogLik_Copula_LT_factor_given_omega_Optim, 
+#                 lb = Lb_Mf_LT_2, ub = Rb_Mf_LT_2, maxfeval = MaxFunEvals, maxiter = MaxIter,
+#                 N = N, T = T, f_hat_vec = f_bar_sim, u_mat = u_mat_sim, asset_group_vec = asset_group_vec, 
+#                 n_vec = n_vec, ind_t_dist = 1, ind_Rt = 0)
 
