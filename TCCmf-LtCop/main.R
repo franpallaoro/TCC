@@ -104,11 +104,9 @@ step2 = fmincon(
 theta_opt = step2[[1]]
 max_LogLik = -step2[[2]]
 
-<<<<<<< HEAD
 b <- Sys.time()
 
 print(b - a)
-=======
 
 #simulação 
 
@@ -151,4 +149,3 @@ step2_sim = fmincon(x0 = para_start_Mf_LT_2, fn = LogLik_Copula_LT_factor_given_
                 N = N, T = T, f_hat_vec = f_bar_sim, u_mat = u_mat_sim, asset_group_vec = asset_group_vec, 
                 n_vec = n_vec, ind_t_dist = 1, ind_Rt = 0)
 
->>>>>>> 251f604a6c71103e30874462cf07c6d6558e90b7
