@@ -36,7 +36,7 @@ Moment_based_omega_LT_FC = function(G, params, rho_vec_sample_bl_vech){ # functi
   }
   
   
-  denom_f_mat_g            = matrix(denom_f_vec_g, 1, G) #denom_f_vec_g*ones(1,G); 
+  denom_f_mat_g            = matrix(denom_f_vec_g, length(denom_f_vec_g), G, byrow = F) #denom_f_vec_g*ones(1,G); 
   L_tilde_prime_mat_t      = f_prime_mat_t/sqrt(denom_f_mat_g)#f_prime_mat_t./sqrt(denom_f_mat_g);
   L_tilde_prime_L_tilde    = L_tilde_prime_mat_t %*% t(L_tilde_prime_mat_t)#L_tilde_prime_mat_t * L_tilde_prime_mat_t'; 
   vech_FC                  = Sym2Vech(G,L_tilde_prime_L_tilde)#Admin.Sym2Vech(G,L_tilde_prime_L_tilde); #fun?ao do admin

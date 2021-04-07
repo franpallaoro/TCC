@@ -9,7 +9,9 @@ Compute_R_t_inv_and_det_R_t_L_matrix <- function(sigma_2_vec_t,L_til_prime_t){
   }#size(L_til_prime_t,2)
 
   sigma_2_inv           = 1/sigma_2_vec_t
-  L_til_t_times_D_inv_t = L_til_prime_t * matrix(sigma_2_inv,1,m)
+  L_til_t_times_D_inv_t = L_til_prime_t * matrix(sigma_2_inv,length(sigma_2_inv),m, byrow = F)
+  # L_til_t_times_D_inv_t = L_til_prime_t*(sigma_2_inv%*%matrix(1,1,m))
+
   temp_0                = diag(m) +  t(L_til_t_times_D_inv_t)%*%L_til_prime_t 
             
   ind_pd = try(chol(temp_0), TRUE)

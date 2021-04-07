@@ -116,10 +116,10 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
       }
 
     }
-   
     # Step 1b: compute the correlation matrix (if ind_Rt=1) and its
     #          inverse and determinant
-    denom_f_mat             = matrix(denom_f_vec, nrow = 1,ncol = k) 
+    denom_f_mat             = matrix(denom_f_vec, nrow = length(denom_f_vec), ncol = k, byrow = F)
+    # denom_f_mat             = denom_f_vec%*%matrix(1, nrow = 1,ncol = k)
     lambda_til_prime_mat_t  = f_prime_mat_t / sqrt(denom_f_mat)
     sigma_2_vec_t           = (1/denom_f_vec)
     aux_Compute_R_t_inv_and_det_R_t_L_matrix = Compute_R_t_inv_and_det_R_t_L_matrix(sigma_2_vec_t,lambda_til_prime_mat_t)
@@ -127,7 +127,8 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
     det_R_t                 = aux_Compute_R_t_inv_and_det_R_t_L_matrix[[2]]
     Flag                    = aux_Compute_R_t_inv_and_det_R_t_L_matrix[[3]]
     if(ind_Rt==1){
-      denom_f_mat_tg          = matrix(denom_f_un,1,G) 
+      denom_f_mat_tg          = matrix(denom_f_un, length(denom_f_un), G, byrow = F) 
+      # denom_f_mat_tg          = denom_f_un%*%matrix(1,1,G)
       L_tilde_prime_mat_tg    = f_prime_mat_tg/sqrt(denom_f_mat_tg)
       Rt_Block                = L_tilde_prime_mat_tg %*% t(L_tilde_prime_mat_tg)
       R_mat[,,j] = Rt_Block
@@ -203,7 +204,7 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
                         
                     
       #(F.20)
-      dau_L_tilde_dau_f_mat =  dau_L_tilde_dau_lambda_tilde%*%dau_lambda_tilde_dau_f_mat;
+      dau_L_tilde_dau_f_mat =  dau_L_tilde_dau_lambda_tilde%*%dau_lambda_tilde_dau_f_mat
                    
                     
       # (F.24)                                         
