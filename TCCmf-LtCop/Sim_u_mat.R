@@ -219,8 +219,8 @@ for(j in 1:T){
     if(j<T){
       f_mat[j+1,] = omega_vec +  A_vec*s_mat[j,] + B_vec*f_mat[j,] 
       #adicionar aqui o x_mat[j+1,] = b.1 apendice
-      lambda_tilde_x_mat = f_mat[j+1,]/sqrt(1+t(f_mat[j+1,])%*%f_mat[j+1,])
-      sigma_x_mat = sqrt(1/(1+t(f_mat[j+1,])%*%f_mat[j+1,]))
+      lambda_tilde_x_mat = f_mat[j+1,]/ as.vector(sqrt(1+t(f_mat[j+1,])%*%f_mat[j+1,]))
+      sigma_x_mat = as.vector(sqrt(1/(1+t(f_mat[j+1,])%*%f_mat[j+1,])))
       if(!require(invgamma)){install.packages("invgamma")}
       if(!require(mvtnorm)){install.packages("mvtnorm")}
       library(invgamma)
