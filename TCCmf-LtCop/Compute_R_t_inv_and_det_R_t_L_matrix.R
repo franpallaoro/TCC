@@ -11,7 +11,7 @@ Compute_R_t_inv_and_det_R_t_L_matrix <- function(sigma_2_vec_t,L_til_prime_t){
   sigma_2_inv           = 1/sigma_2_vec_t
   L_til_t_times_D_inv_t = L_til_prime_t*(sigma_2_inv%*%matrix(1,1,m))
   temp_0                = diag(m) +  t(L_til_t_times_D_inv_t)%*%L_til_prime_t
-            
+
   ind_pd = try(chol(temp_0), TRUE)
   if(!is.matrix(ind_pd)){
     Flag = 1
@@ -25,6 +25,6 @@ Compute_R_t_inv_and_det_R_t_L_matrix <- function(sigma_2_vec_t,L_til_prime_t){
     det_D_t = prod(sigma_2_vec_t)
     det_R_t = det(temp_0)*det_D_t
   }
-  
+
   return(list("R_inv_t" = R_inv_t, "det_R_t" = det_R_t, "Flag" = Flag))
-}             
+}     

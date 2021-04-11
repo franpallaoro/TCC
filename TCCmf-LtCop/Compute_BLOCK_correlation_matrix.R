@@ -21,16 +21,16 @@ for (i in 1:G) {
   Rt_mat_ii = Rt_mat[teller_i:(teller_i+n_i-1),teller_i:(teller_i+n_i-1)]
   if (n_i>1){
     rho_ii = as.numeric((t(matrix(1, n_i, 1))%*%Rt_mat_ii%*%matrix(1, n_i, 1) - n_i)/(n_i*(n_i-1)))
-    
+
   }else{
     rho_ii = 0
   }
   Rho_block_mat[i,i] = rho_ii
-  
+
   Rt_0[teller_i:(teller_i+n_i-1), teller_i:(teller_i+n_i-1)] = (1- rho_ii)*diag(n_i)
-  
+
   Rt_1[teller_i:(teller_i+n_i-1), teller_i:(teller_i+n_i-1)] = rho_ii
-  
+
   teller_j = sum(n_vec[1:i])+1
   if(i != G){
     for (b in (i+1):G) {
@@ -40,7 +40,7 @@ for (i in 1:G) {
       Rho_block_mat[b,i] = rho_ij
       Rt_1[teller_i:(teller_i+n_i-1), teller_j:(teller_j+n_vec[b]-1)] = rho_ij
       Rt_1[teller_j:(teller_j+n_vec[b]-1), teller_i:(teller_i+n_i-1)] = rho_ij
-      
+
       teller_j = teller_j+n_vec[b]
     }
   }

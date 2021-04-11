@@ -222,6 +222,7 @@ for(j in 1:T){
     # Step 2d: update the time-varying parameters using the score for the next
     #          iteration
     if(j<T){
+
       f_mat[j+1,] = omega_vec +  A_vec*s_mat[j,] + B_vec*f_mat[j,] #código da verossimilhança
       #adicionar aqui o x_mat[j,] = b.1 apendice
       }
@@ -236,7 +237,7 @@ for(j in 1:T){
       sigma_x_i = sigma_2_vec_t[i]
       eps_i = rnorm(1)#específico para x_i
       x_mat[j,i] = sqrt(ginv)*(t(lambda_tilde_x_i)%*%t(zt) + sigma_x_i*eps_i)
-      }
+      }   
     }
   }
 if (ind_t_dist == 1){
