@@ -5,6 +5,11 @@ Sim_u_mat = function(N, G, T, params, n_vec, ind_t_dist, ind_Rt, f_hat_vec){
 #entrar com n_vec que é o número de ativos por grupo
 #entrar com T, G e N
 #sair com PITs
+params = theta_opt
+ind_t_dist = 1
+ind_Rt = 0
+f_hat_vec = f_bar
+
 
 g_vec_cum            = cumsum(seq(G, 1, by = -1))
 k                    = G
@@ -217,30 +222,31 @@ for(j in 1:T){
     # Step 2d: update the time-varying parameters using the score for the next
     #          iteration
     if(j<T){
-      f_mat[j+1,] = omega_vec +  A_vec*s_mat[j,] + B_vec*f_mat[j,] 
-      #adicionar aqui o x_mat[j+1,] = b.1 apendice
-      lambda_tilde_x_mat = f_mat[j+1,]/sqrt(1+t(f_mat[j+1,])%*%f_mat[j+1,])
-      sigma_x_mat = sqrt(1/(1+t(f_mat[j+1,])%*%f_mat[j+1,]))
-      if(!require(invgamma)){install.packages("invgamma")}
-      if(!require(mvtnorm)){install.packages("mvtnorm")}
-      library(invgamma)
-      library(mvtnorm)
-      gi = rinvgamma(1, 1/2*nu, 1/2*nu)
-      zt = rmvnorm(1, sigma = diag(p))
-      eps = rnorm(1)
-      x_mat[j+1,] = sqrt(gi)*(lambda_tilde_x_mat%*%t(zt) + sigma_x_mat*eps)
-    }
-   
-    
+      f_mat[j+1,] = omega_vec +  A_vec*s_mat[j,] + B_vec*f_mat[j,] #código da verossimilhança
+      #adicionar aqui o x_mat[j,] = b.1 apendice
+      }
+    if(!require(invgamma)){install.packages("invgamma")}
+    if(!require(mvtnorm)){install.packages("mvtnorm")}
+    library(invgamma)
+    library(mvtnorm)
+    ginv = rinvgamma(1, 1/2*nu, 1/2*nu)#comum pra todos os i
+    zt = rmvnorm(1, sigma = diag(G))#comum pra todos os i
+    for (i in 1:N) {
+      lambda_tilde_x_i = as.matrix(lambda_til_prime_mat_t[i,])
+      sigma_x_i = sigma_2_vec_t[i]
+      eps_i = rnorm(1)#específico para x_i
+      x_mat[j,i] = sqrt(ginv)*(t(lambda_tilde_x_i)%*%t(zt) + sigma_x_i*eps_i)
+      }
     }
   }
 if (ind_t_dist == 1){
-  x_mat_0 = x_mat/sqrt((nu-2)/nu) #aqui ta certo isso?
+  x_mat_0 = x_mat/sqrt((nu-2)/nu) #esta certo
   u_mat   = pt(x_mat_0, nu)
-}else{
-  u_mat   = pnorm(x_mat)
-}
-return(u_mat)
+  }else{
+    u_mat   = pnorm(x_mat)
+    }
+
+return(x_mat)
 
 }
   

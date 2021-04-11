@@ -1,4 +1,4 @@
-LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_group_vec,n_vec,ind_t_dist,ind_Rt){
+LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_group_vec,n_vec,ind_t_dist,ind_Rt,ind_sim,...){
   G = max(asset_group_vec)
   g_vec_cum            = cumsum(seq(G, 1, by = -1))
   k                    = G
@@ -7,15 +7,23 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
   A_vec  = params[1]
   B_vec  = params[2]
   omega_vec = (1-B_vec)%*%t(f_hat_vec)
-  
-  if (ind_t_dist == 1){
-    end = length(params)
-    nu      = params[end]
-    x_mat_0 = qt(u_mat, nu) 
-    x_mat   = sqrt((nu-2)/nu) * x_mat_0
+  if(ind_sim == 1){
+    x_mat = u_mat
+    if(ind_t_dist == 1){
+      end = length(params)
+      nu      = params[end]
+    }
   }else{
-    x_mat   = qnorm(u_mat)
+    if (ind_t_dist == 1){
+      end = length(params)
+      nu      = params[end]
+      x_mat_0 = qt(u_mat, nu) 
+      x_mat   = sqrt((nu-2)/nu) * x_mat_0
+    }else{
+      x_mat   = qnorm(u_mat)
+    }
   }
+  
   
   loglike_vec         = matrix(0, nrow = T, ncol = 1)            
   f_mat               = matrix(0, nrow = T, ncol = p)
