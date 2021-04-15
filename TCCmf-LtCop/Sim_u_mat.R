@@ -1,4 +1,4 @@
-Sim_u_mat = function(N, G, T, params, n_vec, ind_t_dist, ind_Rt, f_hat_vec){
+Sim_x_mat = function(N, G, T, params, n_vec, ind_t_dist, ind_Rt, f_hat_vec){
 #entrar com A B omega e nu
 #entrar com x inicial sefor 0 não precisa
 #entrar com indicadora se é t ou gaussian
@@ -222,9 +222,7 @@ for(j in 1:T){
     # Step 2d: update the time-varying parameters using the score for the next
     #          iteration
     if(j<T){
-
       f_mat[j+1,] = omega_vec +  A_vec*s_mat[j,] + B_vec*f_mat[j,] #código da verossimilhança
-      #adicionar aqui o x_mat[j,] = b.1 apendice
       }
     if(!require(invgamma)){install.packages("invgamma")}
     if(!require(mvtnorm)){install.packages("mvtnorm")}
@@ -234,18 +232,13 @@ for(j in 1:T){
     zt = rmvnorm(1, sigma = diag(G))#comum pra todos os i
     for (i in 1:N) {
       lambda_tilde_x_i = as.matrix(lambda_til_prime_mat_t[i,])
-      sigma_x_i = sigma_2_vec_t[i]
+      sigma_x_i = sqrt(sigma_2_vec_t[i])#olhar 
       eps_i = rnorm(1)#específico para x_i
       x_mat[j,i] = sqrt(ginv)*(t(lambda_tilde_x_i)%*%t(zt) + sigma_x_i*eps_i)
       }   
     }
   }
-if (ind_t_dist == 1){
-  x_mat_0 = x_mat/sqrt((nu-2)/nu) #esta certo
-  u_mat   = pt(x_mat_0, nu)
-  }else{
-    u_mat   = pnorm(x_mat)
-    }
+
 
 return(x_mat)
 

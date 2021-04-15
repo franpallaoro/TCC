@@ -1,4 +1,4 @@
-LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_group_vec,n_vec,ind_t_dist,ind_Rt,ind_sim,...){
+LogLik_Copula_LT_factor_given_omega = function(params,N,T,f_hat_vec,u_mat,asset_group_vec,n_vec,ind_t_dist,ind_Rt,ind_sim,...){
   G = max(asset_group_vec)
   g_vec_cum            = cumsum(seq(G, 1, by = -1))
   k                    = G
@@ -13,6 +13,7 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
     if(ind_t_dist == 1){
       end = length(params)
       nu      = params[end]
+    }
 	}else{
     if (ind_t_dist == 1){
       end = length(params)
@@ -265,15 +266,15 @@ LogLik_Copula_LT_factor_given_omega = function(N,T,params,f_hat_vec,u_mat,asset_
     LLF = 1e14
   }
 
-  return(list("LLF" = LLF, "loglike_vec" = loglike_vec, 
-              "R_mat" = R_mat, "s_mat" = s_mat, "f_mat" = f_mat))
+  return(LLF)
 }
 
 
 
 
 
-
+#return(list("LLF" = LLF, "loglike_vec" = loglike_vec, 
+ #           "R_mat" = R_mat, "s_mat" = s_mat, "f_mat" = f_mat))
 
 
 # function [LLF,loglike_vec,R_mat,s_mat,f_mat] = LogLik_Copula_LT_factor_given_omega(N,T,params,f_hat_vec,u_mat,asset_group_vec,n_vec,ind_t_dist,ind_Rt);

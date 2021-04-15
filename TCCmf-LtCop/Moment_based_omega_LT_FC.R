@@ -1,4 +1,4 @@
-Moment_based_omega_LT_FC = function(G, params, rho_vec_sample_bl_vech){ # function [dist_sq,L_tilde_prime_L_tilde] = Moment_based_omega_LT_FC(G, params, rho_vec_sample_bl_vech);
+Moment_based_omega_LT_FC = function(params, G, rho_vec_sample_bl_vech){ # function [dist_sq,L_tilde_prime_L_tilde] = Moment_based_omega_LT_FC(G, params, rho_vec_sample_bl_vech);
   # sa?das  dist_sq, L_tilde_prime_L_tilde
   # This function contains the first step of the two-step
   # approach when estimating the MF-LT model with a scaled loading
@@ -46,5 +46,5 @@ Moment_based_omega_LT_FC = function(G, params, rho_vec_sample_bl_vech){ # functi
   dist_vec = vech_FC - rho_vec_sample_bl_vech #vech_FC - rho_vec_sample_bl_vech;
   dist_sq  = t(dist_vec)%*%dist_vec #dist_vec'*dist_vec;
 
-  return(list("dist_sq" = dist_sq, "L_tilde_prime_L_tilde" = L_tilde_prime_L_tilde))         
+  return(dist_sq)         
 }
