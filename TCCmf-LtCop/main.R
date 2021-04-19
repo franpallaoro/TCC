@@ -7,7 +7,7 @@ source("Compute_R_t_inv_and_det_R_t_L_matrix.R")
 source("Compute_S_l_matrix.R")
 source("LogLik_Copula_LT_factor_given_omega.R")
 source("Moment_based_omega_LT_FC.R")
-source("Sim_x_mat.R")
+source("Sim_u_mat.R")
 source("Sym2Vech.R")
 
 #import data and gather T and N
@@ -47,18 +47,10 @@ MaxFunEvals = 30000
 
 # Create starting values and lower/upper bounds for the contrained optimization
 
-#para_start_1f_eq  = [0.001 0.01 0.92 30]';
-#para_start_1f_gr  = [0.001*ones(1,G) 0.02 0.9 30]';
-#para_start_2f = [0.001*ones(1,G) 0.02 0.01*ones(1,2) 0.9 30]';
 para_start_Mf = c(0.05, 0.02*matrix(1,1,G), 0.01*matrix(1,1,2), 0.9, 30)
 
 # lower and upper bounds
-#Lb_1f_eq = [-1 eps*ones(1,2) 2.1]';
-#Rb_1f_eq = [ 0.1 0.10 0.99999 5000]';
-#Lb_1f_gr = [-1*ones(1,G) eps*ones(1,2) 2.1]';
-#Rb_1f_gr = [0.1*ones(1,G) 0.10 0.99999 5000]';
-#Lb_2f = [-1*ones(1,G+1) eps*ones(1,3) 2.1]';
-#Rb_2f = [0.1*ones(1,G+1) 0.1 0.1 0.99999 5000]';
+
 Lb_Mf = c(.Machine$double.eps*matrix(1, 1, 4+10), 2.1) #[ eps*ones(1,4+G) 2.1]';
 Rb_Mf = c(0.5*matrix(1,1,G+1), 0.2, 0.2, 0.99999, 5000)
 
@@ -78,31 +70,9 @@ Rb_Mf_LT_2 = c(5*matrix(1,1,1), 0.99999, 5000)
 #Rb_Mf_LT_2 = c(5*matrix(1,1,1), 0.99999, 5000)#certo
 #para_start_Mf_LT_2 = c(0, 0.9, 30)
 para_start_Mf_LT_2 = c(0.01, 0.96, 20)#certo
-            
 
-#create a empty cell array for parameters, standard errors (optional) and strings (will be used later on to print the results)
-# para_cell = cell(10,1);
-# if ind_se==1
-# se_para_cell = cell(10,1);
-# end
-# para_cell_str = cell(10,1);
-# #para_1f_eq_str = {'omega', 'A','B', 'nu Cop'};
-# #para_1f_gr_str = {'omega_1','omega_2','omega_3','omega_4','omega_5','omega_6','omega_7','omega_8','omega_9','omega_10', 'A','B', 'nu Cop'};
-# #para_2f_str = {'omega_eq','omega_1','omega_2','omega_3','omega_4','omega_5','omega_6','omega_7','omega_8','omega_9','omega_10', 'A_eq','A_gr','B', 'nu Cop'};
-# para_Mf_str = para_2f_str;
-# para_Mf_LT_str = {'A','B', 'nu Cop'};
-#             
-# para_cell_str{1} = para_1f_eq_str(1:end-1);
-# para_cell_str{2} = para_1f_eq_str;
-# para_cell_str{3} = para_1f_gr_str(1:end-1);
-# para_cell_str{4} = para_1f_gr_str;
-# para_cell_str{5} = para_2f_str(1:end-1);
-# para_cell_str{6} = para_2f_str;
-# para_cell_str{7} = para_Mf_str(1:end-1);
-# para_cell_str{8} = para_Mf_str;
-# para_cell_str{9} = para_Mf_LT_str(1:end-1);
-# para_cell_str{10} = para_Mf_LT_str;
-#             
+
+
 
 
 # step 1: moment estimator of f_bar (see eq 11/12 of Opschoor et al. (2020))
@@ -130,7 +100,7 @@ LogLik_Copula_LT_factor_given_omega_Optim <- function(N,T,params,f_hat_vec,u_mat
 step2 = slsqp(x0 = para_start_Mf_LT_2, fn = LogLik_Copula_LT_factor_given_omega, 
                 lower = Lb_Mf_LT_2, upper = Rb_Mf_LT_2,
                 N = N, T = T, f_hat_vec = f_bar, u_mat = u_mat, asset_group_vec = asset_group_vec, 
-                n_vec = n_vec, ind_t_dist = 1, ind_Rt = 0, ind_sim = 0)
+                n_vec = n_vec, ind_t_dist = 1, ind_Rt = 1, ind_sim = 0)
 
 
 
@@ -143,15 +113,18 @@ b <- Sys.time()
 print(b - a)
 
 #simulação 
-
-# sim = list()
-# nsim = 10
-# for (i in 1:nsim) {
-#  sim[[i]] = Sim_u_mat(N, G, T+1, theta_opt, n_vec, 1, 0, f_bar)
-#  print(i)
-# }
-x_mat_sim = Sim_x_mat(N, G, T+1, theta_opt, n_vec, 1, 0, f_bar)
-x_mat_sim = x_mat_sim[-1,]          
+N = 100
+G = 10
+T = 1000
+A = 0.015
+B = 0.97
+nu = 35
+omega = seq(-0.10,0.9, length.out = 55)
+#omegas = (1-B_vec)%*%t(f_hat_vec)
+theta = c(A, B, nu)
+n_vec           = matrix(10,10,1)  
+x_mat_sim = Sim_x_mat(N, G, T, theta, n_vec, 1, 0, omega)
+#x_mat_sim = x_mat_sim[-1,]          
 x_mat_sim = as.matrix(x_mat_sim)
 
 T          = dim(x_mat_sim)[1]
@@ -164,24 +137,25 @@ G               = max(asset_group_vec)
 #x_mat_sim = u_mat_sim
 #x_mat    = qnorm(u_mat_sim)#norminv(u_mat);
 Rt_Block_sim = Compute_BLOCK_correlation_matrix(x_mat_sim,n_vec)[[1]]
-Rt_sample_vech_sim = Sym2Vech(G,t(Rt_Block))
+Rt_sample_vech_sim = Sym2Vech(G,t(Rt_Block_sim))
 
 
-Moment_based_omega_LT_FC_Optim <- function(G, params, rho_vec_sample_bl_vech) {
-  Moment_based_omega_LT_FC(G = G, params = params, rho_vec_sample_bl_vech = Rt_sample_vech_sim)[[1]]
-}
+# Moment_based_omega_LT_FC_Optim <- function(G, params, rho_vec_sample_bl_vech) {
+#   Moment_based_omega_LT_FC(G = G, params = params, rho_vec_sample_bl_vech = Rt_sample_vech_sim)[[1]]
+# }
 step1_sim = slsqp(x0 = para_start_Mf_LT_1, fn = Moment_based_omega_LT_FC, 
                 lower = Lb_Mf_LT_1, upper = Rb_Mf_LT_1,
                 G = G, rho_vec_sample_bl_vech = Rt_sample_vech_sim)
 f_bar_sim = step1_sim$par
 
 
-LogLik_Copula_LT_factor_given_omega_Optim <- function(N,T,params,f_hat_vec,u_mat,asset_group_vec,n_vec,ind_t_dist,ind_Rt,ind_sim){
-  LogLik_Copula_LT_factor_given_omega(N,T,params,f_bar_sim,x_mat_sim,asset_group_vec,n_vec,1,0,1)[[1]]
-}
+# LogLik_Copula_LT_factor_given_omega_Optim <- function(N,T,params,f_hat_vec,u_mat,asset_group_vec,n_vec,ind_t_dist,ind_Rt,ind_sim){
+#   LogLik_Copula_LT_factor_given_omega(N,T,params,f_bar_sim,x_mat_sim,asset_group_vec,n_vec,1,0,1)[[1]]
+# }
 step2_sim = slsqp(x0 = para_start_Mf_LT_2, fn = LogLik_Copula_LT_factor_given_omega, 
                 lower = Lb_Mf_LT_2, upper = Rb_Mf_LT_2,
                 N = N, T = T, f_hat_vec = f_bar_sim, u_mat = x_mat_sim, asset_group_vec = asset_group_vec, 
                 n_vec = n_vec, ind_t_dist = 1, ind_Rt = 0, ind_sim = 1)
 
 step2_sim$par
+

@@ -1,14 +1,10 @@
-Sim_x_mat = function(N, G, T, params, n_vec, ind_t_dist, ind_Rt, f_hat_vec){
+Sim_x_mat = function(N, G, T, params, n_vec, ind_t_dist, ind_Rt, omega){
 #entrar com A B omega e nu
 #entrar com x inicial sefor 0 não precisa
 #entrar com indicadora se é t ou gaussian
 #entrar com n_vec que é o número de ativos por grupo
 #entrar com T, G e N
 #sair com PITs
-params = theta_opt
-ind_t_dist = 1
-ind_Rt = 0
-f_hat_vec = f_bar
 
 
 g_vec_cum            = cumsum(seq(G, 1, by = -1))
@@ -19,7 +15,8 @@ A_vec     = params[1]
 B_vec     = params[2]
 end       = length(params)
 nu        = params[end]
-omega_vec = (1-B_vec)%*%t(f_hat_vec)
+#omega_vec = (1-B_vec)%*%t(f_hat_vec)
+omega_vec = omega
 
 f_mat               = matrix(0, nrow = T, ncol = p)
 s_mat               = matrix(0, nrow = T, ncol = p)
@@ -32,7 +29,7 @@ if(ind_Rt==1){
 }
 
 
-f_mat[1,] = f_hat_vec
+f_mat[1,] = omega
 
 
 teller_0 = 1
