@@ -1,5 +1,5 @@
-LogLik_Copula_LT_factor_given_omega = function(params,N,T,f_hat_vec,u_mat,asset_group_vec,n_vec,ind_t_dist,ind_Rt,ind_sim,...){
-  G = max(asset_group_vec)
+LogLik_Copula_LT_factor_given_omega = function(params,N,T,f_hat_vec,u_mat,n_vec,ind_t_dist,ind_Rt,ind_sim,...){
+  G = max(n_vec)
   g_vec_cum            = cumsum(seq(G, 1, by = -1))
   k                    = G
   p                    = G*(G+1)/2

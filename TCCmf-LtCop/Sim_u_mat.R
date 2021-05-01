@@ -1,4 +1,4 @@
-Sim_x_mat = function(N, G, T, params, n_vec, ind_t_dist, ind_Rt, omega){
+Sim_u_mat = function(N, G, T, params, mu_moment, n_vec, ind_t_dist, ind_Rt){
 #entrar com A B omega e nu
 #entrar com x inicial sefor 0 não precisa
 #entrar com indicadora se é t ou gaussian
@@ -13,14 +13,18 @@ p                    = G*(G+1)/2
 
 A_vec     = params[1]
 B_vec     = params[2]
-end       = length(params)
-nu        = params[end]
+if(ind_t_dist == 1){
+  end       = length(params)
+  nu        = params[end]
+}
 #omega_vec = (1-B_vec)%*%t(f_hat_vec)
-omega_vec = omega
+omega_vec  =  t(mu_moment)*(1-B)
+
 
 f_mat               = matrix(0, nrow = T, ncol = p)
 s_mat               = matrix(0, nrow = T, ncol = p)
 x_mat               = matrix(0, nrow = T, ncol = N)
+u_mat               = matrix(0, nrow = T, ncol = N)
 
 if(ind_Rt==1){
   R_mat   = array(0, dim = c(G, G, T)) 
@@ -29,7 +33,8 @@ if(ind_Rt==1){
 }
 
 
-f_mat[1,] = omega
+
+f_mat[1,] = mu_moment
 
 
 teller_0 = 1
@@ -48,7 +53,7 @@ for(i in 1:G){
 }
 Ind_lambda_to_group_mat      = cbind(1:p, Ind_lambda_to_group_vec)
 
-# we are now ready to build "dau_L_tilde_dau_lambda_tilde"
+# we are now ready to build "dau_L_tilde_dau_lambda_tilde
 dau_L_tilde_dau_lambda_tilde = matrix(0, nrow = N*k, ncol = p)
 
 ind_match_lambda_group_cell = matrix(list(), G, 1) 
@@ -99,7 +104,7 @@ for(j in 1:T){
   f_prime_mat_t   = matrix(0, nrow = N, ncol = G)
   f_prime_mat_tg  = matrix(0, nrow = G, ncol = G)
   
-  for(i in 1:k){ # erro: i = 10, último dimensao da sl_ma
+  for(i in 1:k){ 
     if(i != G){
       g_i_c           = g_vec_cum[i]
       denom_f_vec     = denom_f_vec + S_l_mat[,i:G]%*%f_t_vec_2[teller_i:g_i_c]  # Based on (F.19) and used repeatedly. 
@@ -225,19 +230,32 @@ for(j in 1:T){
     if(!require(mvtnorm)){install.packages("mvtnorm")}
     library(invgamma)
     library(mvtnorm)
-    ginv = rinvgamma(1, 1/2*nu, 1/2*nu)#comum pra todos os i
-    zt = rmvnorm(1, sigma = diag(G))#comum pra todos os i
-    for (i in 1:N) {
-      lambda_tilde_x_i = as.matrix(lambda_til_prime_mat_t[i,])
-      sigma_x_i = sqrt(sigma_2_vec_t[i])#olhar 
-      eps_i = rnorm(1)#específico para x_i
-      x_mat[j,i] = sqrt(ginv)*(t(lambda_tilde_x_i)%*%t(zt) + sigma_x_i*eps_i)
+    if(ind_t_dist == 1){
+      ginv = rinvgamma(1, 1/2*nu, 1/2*nu)#comum pra todos os i 
+      zt = rnorm(1)#comum pra todos os i
+      for (i in 1:N) {
+        lambda_tilde_x_i = as.matrix(lambda_til_prime_vec_t[i])
+        sigma_x_i = sqrt(sigma_2_vec_t[i])
+        eps_i = rnorm(1)#específico para x_i
+        x_mat[j,i] = sqrt(ginv)*(lambda_tilde_x_i*zt + sigma_x_i*eps_i)
+        x_j_scaled = x_mat[j,i] * 1/ sqrt((nu-2)/nu);
+        u_mat[j,i] = pt(x_j_scaled,nu)
+      }
+    }else{
+      zt = rnorm(1)#comum pra todos os i
+      for (i in 1:N) {
+        lambda_tilde_x_i = as.matrix(lambda_til_prime_vec_t[i])
+        sigma_x_i = sqrt(sigma_2_vec_t[i])
+        eps_i = rnorm(1)#específico para x_i
+        x_mat[j,i] = (lambda_tilde_x_i*zt + sigma_x_i*eps_i)
+        u_mat[j,i] = pnorm(x_mat[j,i])
+        }
       }   
     }
   }
 
 
-return(x_mat)
+return(u_mat)
 
 }
   

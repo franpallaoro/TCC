@@ -19,7 +19,7 @@ Moment_based_omega_LT_FC = function(params, G, rho_vec_sample_bl_vech){ # functi
   ##########################################
 
   g_vec_cum            = cumsum(seq(G, 1, by = -1)) #cumsum(G:-1:1);
-  omega_vec            = params #qual o tamanho desse vetor?
+  omega_vec            = params 
 
   f_t_vec       = t(omega_vec) #omega_vec'; 
   f_t_vec_2     = f_t_vec^2

@@ -1,0 +1,166 @@
+ function [x_mat,u_mat,f_mat,s_mat,R_mat] = get_factor_Copula_LT(n,T,asset_group_vec,mu_moment,A_vec,B,nu,ind_t_dist,ind_Rt)
+            
+            g = max(asset_group_vec);
+            if ind_t_dist==1
+                inv_gamma_vec = sqrt(nu ./ (2.*randg(nu./2,T,1)));
+            end
+            
+            g_vec_cum            = cumsum(g:-1:1);
+            p                    = g;   %number of factors!
+            nr_l                 = g*(g+1)/2; % number of different lambdas
+            n_vec                = sum((asset_group_vec*ones(1,g))== (ones(n,1)*(1:g)));
+            
+            x_mat = zeros(T,n);
+            
+            f_mat = zeros(T,nr_l);
+            s_mat = zeros(T,nr_l);
+            u_mat = zeros(T,n);
+            
+            omega_vec  =  mu_moment'*(1-B);
+            f_mat(1,:) = mu_moment';
+            
+            R_mat = [];
+            if ind_Rt==1
+                R_mat = zeros(g,g,T); %3-way matrices vreten minder geheugen                
+            end
+            z_mat = normrnd(0,1,T,p);
+            
+            S_l_mat    = Admin.Compute_S_l_matrix(asset_group_vec);
+
+                       
+            Ind_lambda_to_group_vec = [];
+            for i = 1:g
+                Ind_lambda_to_group_vec = [Ind_lambda_to_group_vec; [i:g]'];
+            end
+            
+            Ind_lambda_to_group_mat = [[1:nr_l]' Ind_lambda_to_group_vec];
+            dau_L_tilde_dau_lambda_tilde = zeros(n*p,nr_l);
+            
+            ind_match_lambda_group_cell = cell(g,1);
+            for i =  1:g
+                dau_L_tilde_dau_lambda_tilde(sum(n_vec(1:i-1))*g+1:g:sum(n_vec(1:i))*g,i) =1;
+                ind_lambda_g_group_i = Ind_lambda_to_group_mat(Ind_lambda_to_group_mat(:,2)==i,1);
+                
+                ind_match_lambda_group_cell{i} = ind_lambda_g_group_i;
+                
+                for j = 1:i-1
+                    lambda_p = ind_lambda_g_group_i(j+1);
+                    dau_L_tilde_dau_lambda_tilde(sum(n_vec(1:i-1))*g+1+j:g:sum(n_vec(1:i))*g+j,lambda_p) =1;
+                end
+            end
+            
+            
+            for j=1:T
+                
+                eps_vec_t = normrnd(0,1,n,1);
+                
+                f_t_vec   = f_mat(j,:);
+                f_t_vec_2 = f_t_vec.^2;
+                
+                teller_i = 1;
+                denom_f_vec_g   = ones(g,1);
+                denom_f_vec     = ones(n,1);
+                f_prime_mat_t   = zeros(n,p);
+                f_prime_mat_tg  = zeros(g,g);
+                for i = 1:g
+                    g_i_c       = g_vec_cum(i);
+                    denom_f_vec = denom_f_vec + S_l_mat(:,i:g)*f_t_vec_2(teller_i:g_i_c)';
+                    denom_f_vec_g = denom_f_vec_g + [zeros(i-1,1); f_t_vec_2(teller_i:g_i_c)'];
+                    f_prime_mat_t(:,i) = S_l_mat(:,i:g)*f_t_vec(teller_i:g_i_c)';
+                    f_prime_mat_tg(:,i) = [zeros(i-1,1); f_t_vec(teller_i:g_i_c)'];
+                    teller_i = g_i_c+1;
+                end
+                
+                denom_f_mat = denom_f_vec*ones(1,p);
+                
+                lambda_til_prime_mat_t = f_prime_mat_t./ sqrt(denom_f_mat);
+                sigma_2_vec_t  = (1./denom_f_vec);
+                
+                z_vec_j = z_mat(j,:)';
+                
+                if ind_t_dist==1
+                    x_j = sqrt((nu-2)/nu)* inv_gamma_vec(j,1) * (lambda_til_prime_mat_t*z_vec_j + sqrt(sigma_2_vec_t).*eps_vec_t);
+                    x_j_scaled = x_j * 1/ sqrt((nu-2)/nu);
+                    u_j = tcdf(x_j_scaled,nu);
+                else
+                    x_j =  (lambda_til_prime_mat_t*z_vec_j + sqrt(sigma_2_vec_t).*eps_vec_t);
+                    u_j = normcdf(x_j);
+                end
+                % 1 compute R_inverse
+                R_inv_t = Admin.Compute_R_t_inv_L_matrix(sigma_2_vec_t,lambda_til_prime_mat_t);
+                
+                if ind_Rt==1
+                    denom_f_mat_tg          = denom_f_vec_g*ones(1,g);
+                    L_tilde_prime_mat_tg    = f_prime_mat_tg./sqrt(denom_f_mat_tg);
+                    Rt_Block                = L_tilde_prime_mat_tg* L_tilde_prime_mat_tg';
+                    R_mat(:,:,j) = Rt_Block;
+                end
+                
+                % 2 dau_p/dau_R_t
+                R_inv_x = R_inv_t * x_j;
+                coef_R_1 = -0.5;
+                if ind_t_dist==1
+                    x_R_inv_x = x_j' * R_inv_x;
+                    coef_R_2 = 0.5*(nu + n)/(nu-2+ x_R_inv_x );
+                else
+                    coef_R_2 = 0.5;
+                end
+                R_2 = R_inv_x * R_inv_x';
+                
+                % Dau Lambda dau f (f is now a vector of (g+1)x 1)
+                
+                denom_f_vec_g_3_2 = denom_f_vec_g.^(3/2);
+                dau_lambda_tilde_dau_f_vec = 1./sqrt(denom_f_vec_g(Ind_lambda_to_group_mat(:,2))) - f_t_vec_2'./denom_f_vec_g_3_2(Ind_lambda_to_group_mat(:,2));
+                dau_lambda_tilde_dau_f_mat = diag(dau_lambda_tilde_dau_f_vec);
+                
+                dau_sigma_tilde_dau_f_mat = zeros(g,nr_l);
+                
+                
+                % fill dau_labmda_tilde_fau_m (off diag)
+                for i = 1:g
+                    ind_cross_lambda_g =  ind_match_lambda_group_cell{i};
+                    if i>1
+                        for m = 1:i
+                            ind_2 = ind_cross_lambda_g;
+                            ind_m1 = ind_cross_lambda_g(m);
+                            ind_2(m) = [];
+                            
+                            dau_lambda_tilde_i_dau_m_vec        = -(f_t_vec(ind_m1).*f_t_vec(ind_2))./denom_f_vec_g_3_2(i);
+                            dau_lambda_tilde_dau_f_mat(ind_m1,ind_2) = dau_lambda_tilde_i_dau_m_vec;
+                        end
+                    end
+                    
+                    dau_sigma_tilde_dau_f_mat(i,ind_cross_lambda_g) = -2*f_t_vec(ind_cross_lambda_g)./ (denom_f_vec_g(i)^2);
+                end
+                
+                dau_L_tilde_dau_f_mat =  dau_L_tilde_dau_lambda_tilde * dau_lambda_tilde_dau_f_mat;
+                
+                dau_D_dau_f_mat = S_l_mat *  dau_sigma_tilde_dau_f_mat;
+                
+                
+                % 5 compute now s_t
+                % 1a (vec(A) * (C kron D) K_pn dvec Lambda_prime_mat
+                % 1 x n2       (n2 * 2n) (2n * 2n)* n2 * 2
+                % 1b (vec(A)) * (D kron C) dvec Lambda_prime_mat +
+                % 1 x n2       (n2 * 2n) 2n * 2
+                % 1c (vec(A)) * S_D_sp * dau_D_dau_f
+                % 1 x n2       (n2 * p) np * p
+                
+                A_mat       = coef_R_1 * R_inv_t + coef_R_2 *R_2;
+                
+                L_A         = lambda_til_prime_mat_t' * A_mat;
+                s_vec_a     = 2* (L_A(:))'* dau_L_tilde_dau_f_mat;
+                s_vec_b     = diag(A_mat)' * dau_D_dau_f_mat;
+                s_mat(j,:)  = s_vec_a + s_vec_b;                                    
+                
+                if j<T
+                    f_mat(j+1,:) = omega_vec +  A_vec.*s_mat(j,:) + B.*f_mat(j,:);
+                end
+                
+                x_mat(j,:) = x_j';
+                u_mat(j,:) = u_j';
+                
+            end
+            
+        end
+        
