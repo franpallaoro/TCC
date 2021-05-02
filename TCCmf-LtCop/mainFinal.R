@@ -16,10 +16,15 @@ window <- 200
 l <- nrow(data) - window
 T = nrow(data)
 N = ncol(data)
-u_mat = matrix(0, T, N)
-var_vec = rep(0, N)
+
+u_mat = matrix(0, T, N)#matriz PITs
+var_vec_gas = rep(0, N) #variancia modelos marginais
+weightsCop = matrix(0, l, N) #matriz guarda os pesos
 asset_group_vec #vetor dos grupos
 Tns = 1000 #simulações
+u_mat_list = list()
+cov_mat_cop = list()
+params_cop  = list()
 
 for (i in 1:l) {
   i = i
@@ -27,18 +32,26 @@ for (i in 1:l) {
   
   #estimação dos modelos marginais
   for (k in 1:N) {
-    aux = estGAS(data, i, j, k)
-    u_mat[,k]  = aux[[1]]
-    var_vec[k] = aux[[2]]
+    aux            = estGAS(data, i, j, k, Tns)
+    u_mat[,k]      = aux[[1]]
+    var_vec_gas[k] = aux[[2]]
   }
   
   #estimação da cópula
-  cov_mat = estcop(u_mat, asset_group_vec, Tns)
+  u_mat_list[[i]]        = u_mat
+  auxCop                 = estcop(u_mat, asset_group_vec, Tns, 1)
+  cov_mat_cop[[i]]       = auxCop[[1]]
+  diag(cov_mat_cop[[i]]) = var_vec_gas
+  params_cop[[i]]        = auxCop[[2]]
   
-  diag(cov_mat) = var_vec
+  #amostral
+  cov_mat_sample[[i]] = cov(data[i:j,])
   
-  wOptimGASt6MinVar[i,] <- optimWMinVar(N = N, mean = mean, cov = cov, v = v)
-  returnPortGASt6MinVar <- c(returnPortGASt6MinVar, 
-                             returnP(wOptim = wOptimGASt6MinVar[i,],
-                                     data = data, j = j))
+  #minima variancia
+  weightsCop[i,]    = minVar(cov_mat_cop[[i]])
+  weightsSample[i,] = minVar(cov_mat_sample[[i]])
+  
+  #retornos 
+  returnCop[i]    = returnP(wOptim = weightsCop[i,], data = data, j = j)
+  returnSample[i] = returnP(wOptim = weightsSample[i,], data = data, j = j)
 }
