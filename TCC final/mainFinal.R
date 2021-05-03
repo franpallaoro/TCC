@@ -29,16 +29,20 @@ data$HGTX3.SA <- NULL
 data$PCAR3.SA <- NULL
 data$SUZB3.SA <- NULL
 window = 252
+asset_group_vec = c(rep(1,3), rep(2,15), rep(3,5),
+                    rep(4,6), rep(5,14), rep(6,11),
+                    rep(7,16), rep(8,5), rep(9,4)) #vetor dos grupos
 
 l = nrow(data) - window
 T = nrow(data)
 N = ncol(data)
-
-weightsCop = matrix(0, l, N) #matriz guarda os pesos
-asset_group_vec = c(rep(1,3), rep(2,15), rep(3,5),
-                    rep(4,6), rep(5,14), rep(6,11),
-                    rep(7,16), rep(8,5), rep(9,4)) #vetor dos grupos
 Tns = 20000 #simulações
+
+weightsCop    = matrix(0, l, N)#matriz guarda os pesos
+weightsSample = matrix(0, l, N)
+returnCop     = rep(0, l)
+returnSample  = rep(0, l)
+
 u_mat_list = list()
 cov_mat_cop = list()
 params_cop  = list()
