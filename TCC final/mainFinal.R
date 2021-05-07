@@ -8,6 +8,7 @@ source("Sym2Vech.R")
 source("estGAS.R")
 source("estCop.R")
 source("estSample.R")
+source("estGarch.R")
 source("returnP.R")
 source("minVar.R")
 source("getData.R")
@@ -24,64 +25,98 @@ source("getData.R")
 
 
 data = getData('2014-01-01', '2019-12-31')
-data = data[(nrow(data)-752):nrow(data),]
 data$HGTX3.SA <- NULL
 data$PCAR3.SA <- NULL
 data$SUZB3.SA <- NULL
-window = 252
+window = 1000
 asset_group_vec = c(rep(1,3), rep(2,15), rep(3,5),
                     rep(4,6), rep(5,14), rep(6,11),
                     rep(7,16), rep(8,5), rep(9,4)) #vetor dos grupos
+n_vec = c(3, 15, 5, 6, 14, 11, 16, 5, 4)
 
 l = nrow(data) - window
 T = nrow(data)
 N = ncol(data)
 Tns = 20000 #simulações
 
-weightsCop    = matrix(0, l, N)#matriz guarda os pesos
-weightsSample = matrix(0, l, N)
-returnCop     = rep(0, l)
-returnSample  = rep(0, l)
+weightsCop_cov_u = matrix(0, l, N)#matriz guarda os pesos
+weightsCop_cov_x = matrix(0, l, N)
+weightsCop_cor_u = matrix(0, l, N)
+weightsCop_cor_x = matrix(0, l, N)
+weightsSample    = matrix(0, l, N)
+returnCop_cov_u  = rep(0, l)
+returnCop_cov_x  = rep(0, l)
+returnCop_cor_u  = rep(0, l)
+returnCop_cor_x  = rep(0, l)
+returnSample     = rep(0, l)
 
-u_mat_list = list()
-cov_mat_cop = list()
-params_cop  = list()
+u_mat_list     = list()
+cov_mat_cop_u  = list()
+cor_mat_cop_u  = list()
+cov_mat_cop_x  = list()
+cor_mat_cop_x  = list()
+params_cop     = list()
 cov_mat_sample = list()
 
-count = 1
 
-for (i in 1:l) {
+count = 1
+##############
+for (i in 1:200) {
+  #fran de 1:200
+  #juju de 201:300
+  #hudson 301:l
   a = Sys.time()
   i = i
   j = i + window-1
   
   u_mat = matrix(0, window, N)#matriz PITs
-  var_vec_gas = rep(0, N) #variancia modelos marginais
-  
-  #estimação dos modelos marginais
+  var_vec_garch = rep(0, N) #variancia modelos marginais
+  #estimação dos modelos marginais --------------------
   for (k in 1:N) {
-    aux            = estGAS(data, i, j, k, Tns)
+    aux            = estGarch(data, i, j, k)
     u_mat[,k]      = aux[[1]]
-    var_vec_gas[k] = aux[[2]]
+    var_vec_garch[k] = aux[[2]]
   }
   
-  #estimação da cópula
+  #estimação da cópula --------------------
   u_mat_list[[i]]        = u_mat
-  auxCop                 = estCop(u_mat, asset_group_vec, Tns, 1)
-  cov_mat_cop[[i]]       = auxCop[[1]]
-  diag(cov_mat_cop[[i]]) = var_vec_gas
-  params_cop[[i]]        = auxCop[[2]]
+  auxCop                 = estCop(u_mat, asset_group_vec, n_vec, Tns, 1)
+  params_cop[[i]]        = auxCop[[5]]
   
-  #amostral
+   ##u_mat
+  cov_mat_cop_u[[i]]       = auxCop[[1]]
+  diag(cov_mat_cop_u[[i]]) = var_vec_garch
+  cor_mat_cop_u[[i]]       = auxCop[[2]]
+  diag(cor_mat_cop_u[[i]]) = var_vec_garch
+  
+  
+   ##x_mat
+  cov_mat_cop_x[[i]]       = auxCop[[3]]
+  diag(cov_mat_cop_x[[i]]) = var_vec_garch
+  cor_mat_cop_x[[i]]       = auxCop[[4]]
+  diag(cor_mat_cop_x[[i]]) = var_vec_garch
+  
+   ##amostral
   cov_mat_sample[[i]] = cov(data[i:j,])
   
   #minima variancia
-  weightsCop[i,]    = minVar(cov_mat_cop[[i]])
   weightsSample[i,] = minVar(cov_mat_sample[[i]])
   
+  weightsCop_cov_u[i,]    = minVar(cov_mat_cop_u[[i]])
+  weightsCop_cov_x[i,]    = minVar(cov_mat_cop_x[[i]])
+  
+  weightsCop_cor_u[i,]    = minVar(cor_mat_cop_u[[i]])
+  weightsCop_cor_x[i,]    = minVar(cor_mat_cop_x[[i]])
+  
   #retornos 
-  returnCop[i]    = returnP(wOptim = weightsCop[i,], data = data, j = j)
   returnSample[i] = returnP(wOptim = weightsSample[i,], data = data, j = j)
+  
+  returnCop_cov_u[i]    = returnP(wOptim = weightsCop_cov_u[i,], data = data, j = j)
+  returnCop_cov_x[i]    = returnP(wOptim = weightsCop_cov_x[i,], data = data, j = j)
+  
+  returnCop_cor_u[i]    = returnP(wOptim = weightsCop_cor_u[i,], data = data, j = j)
+  returnCop_cor_x[i]    = returnP(wOptim = weightsCop_cor_x[i,], data = data, j = j)
+  
   
   b = Sys.time()
   
@@ -89,3 +124,4 @@ for (i in 1:l) {
   count = count + 1
   print(b-a)
 }
+ 

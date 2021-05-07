@@ -7,10 +7,12 @@ estGAS <- function(data, i, j, k, Tns, ...){
                        GASPar = list(location = FALSE, scale = TRUE,
                                      shape = FALSE))
   fit = UniGASFit(GASSpec, data[i:j,k])
+  forGAS = UniGASFor(fit, 1)
+  var_for = forGAS@Forecast$Moments
   sim = UniGASSim(fit = fit, T.sim = Tns)
   var_sim = var(sim@Data$vY)
   u_i = as.vector(fit@Estimates$vU)
-  return(list(u_i, var_sim))
+  return(list(u_i, var_sim, var_for))
 }
 
 

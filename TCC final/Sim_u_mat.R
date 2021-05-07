@@ -256,7 +256,7 @@ for(j in 1:T){
   }
 
 
-return(u_mat)
+return(list(u_mat, x_mat))
 
 }
   
