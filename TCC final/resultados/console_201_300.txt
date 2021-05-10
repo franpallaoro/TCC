@@ -1,0 +1,255 @@
+[1] 201
+Time difference of 30.87007 mins
+[1] 202
+Time difference of 24.67718 mins
+[1] 203
+Time difference of 22.30969 mins
+[1] 204
+Time difference of 35.21668 mins
+[1] 205
+Time difference of 27.09197 mins
+[1] 206
+Time difference of 25.17334 mins
+[1] 207
+Time difference of 26.44349 mins
+[1] 208
+Time difference of 21.31192 mins
+[1] 209
+Time difference of 19.0694 mins
+[1] 210
+Time difference of 22.98494 mins
+[1] 211
+Time difference of 20.60449 mins
+[1] 212
+Time difference of 23.27802 mins
+[1] 213
+Time difference of 34.58089 mins
+[1] 214
+Time difference of 32.32539 mins
+[1] 215
+Time difference of 38.50615 mins
+[1] 216
+Time difference of 30.89447 mins
+[1] 217
+Time difference of 22.33233 mins
+[1] 218
+Time difference of 25.5711 mins
+[1] 219
+Time difference of 31.75377 mins
+[1] 220
+Time difference of 14.04663 mins
+[1] 221
+Time difference of 20.59282 mins
+[1] 222
+Time difference of 47.93899 mins
+[1] 223
+Time difference of 33.03294 mins
+[1] 224
+Time difference of 35.57174 mins
+[1] 225
+Time difference of 38.24982 mins
+[1] 226
+Time difference of 29.34019 mins
+[1] 227
+Time difference of 34.63409 mins
+[1] 228
+Time difference of 27.60588 mins
+[1] 229
+Time difference of 26.57604 mins
+[1] 230
+Time difference of 21.68255 mins
+[1] 231
+Time difference of 30.4915 mins
+[1] 232
+Time difference of 19.40249 mins
+[1] 233
+Time difference of 27.5041 mins
+[1] 234
+Time difference of 19.57675 mins
+[1] 235
+Time difference of 21.29868 mins
+[1] 236
+Time difference of 22.1557 mins
+[1] 237
+Time difference of 11.39226 mins
+[1] 238
+Time difference of 29.04353 mins
+[1] 239
+Time difference of 40.37828 mins
+[1] 240
+Time difference of 22.45117 mins
+[1] 241
+Time difference of 20.54026 mins
+[1] 242
+Time difference of 29.45673 mins
+[1] 243
+Time difference of 25.29972 mins
+[1] 244
+Time difference of 18.89916 mins
+[1] 245
+Time difference of 29.91257 mins
+[1] 246
+Time difference of 28.72868 mins
+[1] 247
+Time difference of 35.36652 mins
+[1] 248
+Time difference of 20.88397 mins
+[1] 249
+Time difference of 27.04282 mins
+[1] 250
+Time difference of 24.71356 mins
+[1] 251
+Time difference of 24.32671 mins
+[1] 252
+Time difference of 30.12263 mins
+[1] 253
+Time difference of 31.87646 mins
+[1] 254
+Time difference of 26.21677 mins
+[1] 255
+Time difference of 24.25812 mins
+[1] 256
+Time difference of 47.73829 mins
+[1] 257
+Time difference of 28.65821 mins
+[1] 258
+Time difference of 24.34259 mins
+[1] 259
+Time difference of 24.60257 mins
+[1] 260
+Time difference of 33.27025 mins
+[1] 261
+Time difference of 36.5416 mins
+[1] 262
+Time difference of 19.95037 mins
+[1] 263
+Time difference of 28.30953 mins
+[1] 264
+Time difference of 2.968835 mins
+[1] 265
+Time difference of 32.43537 mins
+[1] 266
+Time difference of 27.11547 mins
+[1] 267
+Time difference of 23.20459 mins
+[1] 268
+Time difference of 27.51411 mins
+[1] 269
+Time difference of 35.993 mins
+[1] 270
+Time difference of 18.27559 mins
+[1] 271
+Time difference of 25.73542 mins
+[1] 272
+Time difference of 32.73094 mins
+[1] 273
+Time difference of 24.58827 mins
+[1] 274
+Time difference of 26.53216 mins
+[1] 275
+Time difference of 22.78039 mins
+[1] 276
+Time difference of 29.18672 mins
+[1] 277
+Time difference of 23.65461 mins
+[1] 278
+Time difference of 25.50574 mins
+[1] 279
+Time difference of 29.34412 mins
+[1] 280
+Time difference of 22.44148 mins
+[1] 281
+Time difference of 34.36399 mins
+[1] 282
+Time difference of 3.19742 mins
+[1] 283
+Time difference of 31.1276 mins
+[1] 284
+Time difference of 22.35851 mins
+[1] 285
+Time difference of 25.52115 mins
+[1] 286
+Time difference of 33.64553 mins
+[1] 287
+Time difference of 26.88452 mins
+[1] 288
+Time difference of 35.79487 mins
+[1] 289
+Time difference of 2.845773 mins
+[1] 290
+Time difference of 32.42261 mins
+[1] 291
+Time difference of 28.73652 mins
+[1] 292
+Time difference of 2.806258 mins
+[1] 293
+Time difference of 3.1513 mins
+[1] 294
+Time difference of 2.813877 mins
+[1] 295
+Time difference of 2.820827 mins
+[1] 296
+Time difference of 21.06625 mins
+[1] 297
+Time difference of 2.803941 mins
+[1] 298
+Time difference of 36.12446 mins
+[1] 299
+Time difference of 3.715322 mins
+[1] 300
+Time difference of 26.70383 mins
+There were 50 or more warnings (use warnings() to see the first 50)
+> warnings()
+Mensagens de aviso:
+1: In library(package, lib.loc = lib.loc, character.only = TRUE,  ... :
+  there is no package called ‘fGarch’
+2: package ‘fGarch’ was built under R version 3.6.3
+3: In sqrt(diag(fit$cvar)) : NaNs produzidos
+4: In sqrt(diag(fit$cvar)) : NaNs produzidos
+5: In sqrt(diag(fit$cvar)) : NaNs produzidos
+6: package ‘nloptr’ was built under R version 3.6.3
+7: In library(package, lib.loc = lib.loc, character.only = TRUE,  ... :
+  there is no package called ‘invgamma’
+8: In sqrt(diag(fit$cvar)) : NaNs produzidos
+9: In sqrt(diag(fit$cvar)) : NaNs produzidos
+10: In sqrt(diag(fit$cvar)) : NaNs produzidos
+11: In sqrt(diag(fit$cvar)) : NaNs produzidos
+12: In sqrt(diag(fit$cvar)) : NaNs produzidos
+13: In sqrt(diag(fit$cvar)) : NaNs produzidos
+14: In sqrt(diag(fit$cvar)) : NaNs produzidos
+15: In sqrt(diag(fit$cvar)) : NaNs produzidos
+16: In sqrt(diag(fit$cvar)) : NaNs produzidos
+17: In sqrt(diag(fit$cvar)) : NaNs produzidos
+18: In sqrt(diag(fit$cvar)) : NaNs produzidos
+19: In sqrt(diag(fit$cvar)) : NaNs produzidos
+20: In sqrt(diag(fit$cvar)) : NaNs produzidos
+21: In sqrt(diag(fit$cvar)) : NaNs produzidos
+22: In sqrt(diag(fit$cvar)) : NaNs produzidos
+23: In sqrt(diag(fit$cvar)) : NaNs produzidos
+24: In sqrt(diag(fit$cvar)) : NaNs produzidos
+25: In sqrt(diag(fit$cvar)) : NaNs produzidos
+26: In sqrt(diag(fit$cvar)) : NaNs produzidos
+27: In sqrt(diag(fit$cvar)) : NaNs produzidos
+28: In sqrt(diag(fit$cvar)) : NaNs produzidos
+29: In sqrt(diag(fit$cvar)) : NaNs produzidos
+30: In sqrt(diag(fit$cvar)) : NaNs produzidos
+31: In rgamma(n, shape, rate) : NAs produzidos
+32: In sqrt(diag(fit$cvar)) : NaNs produzidos
+33: In sqrt(diag(fit$cvar)) : NaNs produzidos
+34: In sqrt(diag(fit$cvar)) : NaNs produzidos
+35: In sqrt(diag(fit$cvar)) : NaNs produzidos
+36: In sqrt(diag(fit$cvar)) : NaNs produzidos
+37: In sqrt(diag(fit$cvar)) : NaNs produzidos
+38: In sqrt(diag(fit$cvar)) : NaNs produzidos
+39: In sqrt(diag(fit$cvar)) : NaNs produzidos
+40: In sqrt(diag(fit$cvar)) : NaNs produzidos
+41: In sqrt(diag(fit$cvar)) : NaNs produzidos
+42: In sqrt(diag(fit$cvar)) : NaNs produzidos
+43: In sqrt(diag(fit$cvar)) : NaNs produzidos
+44: In sqrt(diag(fit$cvar)) : NaNs produzidos
+45: In sqrt(diag(fit$cvar)) : NaNs produzidos
+46: In sqrt(diag(fit$cvar)) : NaNs produzidos
+47: In sqrt(diag(fit$cvar)) : NaNs produzidos
+48: In sqrt(diag(fit$cvar)) : NaNs produzidos
+49: In rgamma(n, shape, rate) : NAs produzidos
+50: In sqrt(diag(fit$cvar)) : NaNs produzidos
