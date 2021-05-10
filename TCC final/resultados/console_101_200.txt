@@ -1,0 +1,200 @@
+[1] 101
+Time difference of 23.51441 mins
+[1] 102
+Time difference of 23.28776 mins
+[1] 103
+Time difference of 2.815476 mins
+[1] 104
+Time difference of 2.873088 mins
+[1] 105
+Time difference of 2.436206 mins
+[1] 106
+Time difference of 2.413 mins
+[1] 107
+Time difference of 29.35186 mins
+[1] 108
+Time difference of 2.77946 mins
+[1] 109
+Time difference of 2.776312 mins
+[1] 110
+Time difference of 2.774446 mins
+[1] 111
+Time difference of 21.09096 mins
+[1] 112
+Time difference of 17.87565 mins
+[1] 113
+Time difference of 2.777263 mins
+[1] 114
+Time difference of 2.767849 mins
+[1] 115
+Time difference of 2.759421 mins
+[1] 116
+Time difference of 2.775784 mins
+[1] 117
+Time difference of 2.767416 mins
+[1] 118
+Time difference of 24.14154 mins
+[1] 119
+Time difference of 2.759838 mins
+[1] 120
+Time difference of 2.763835 mins
+[1] 121
+Time difference of 21.74853 mins
+[1] 122
+Time difference of 2.754024 mins
+[1] 123
+Time difference of 17.6666 mins
+[1] 124
+Time difference of 8.770001 mins
+[1] 125
+Time difference of 2.805012 mins
+[1] 126
+Time difference of 22.6947 mins
+[1] 127
+Time difference of 14.68724 mins
+[1] 128
+Time difference of 26.13114 mins
+[1] 129
+Time difference of 2.775415 mins
+[1] 130
+Time difference of 2.787788 mins
+[1] 131
+Time difference of 10.3451 mins
+[1] 132
+Time difference of 2.773269 mins
+[1] 133
+Time difference of 23.57999 mins
+[1] 134
+Time difference of 18.27708 mins
+[1] 135
+Time difference of 20.73607 mins
+[1] 136
+Time difference of 19.342 mins
+[1] 137
+Time difference of 22.83443 mins
+[1] 138
+Time difference of 18.33634 mins
+[1] 139
+Time difference of 2.727926 mins
+[1] 140
+Time difference of 17.40631 mins
+[1] 141
+Time difference of 2.736917 mins
+[1] 142
+Time difference of 2.708286 mins
+[1] 143
+Time difference of 28.53199 mins
+[1] 144
+Time difference of 22.12685 mins
+[1] 145
+Time difference of 27.65779 mins
+[1] 146
+Time difference of 24.92743 mins
+[1] 147
+Time difference of 20.24034 mins
+[1] 148
+Time difference of 26.94848 mins
+[1] 149
+Time difference of 26.79648 mins
+[1] 150
+Time difference of 19.38708 mins
+[1] 151
+Time difference of 28.14725 mins
+[1] 152
+Time difference of 33.50636 mins
+[1] 153
+Time difference of 22.21303 mins
+[1] 154
+Time difference of 21.31409 mins
+[1] 155
+Time difference of 22.30666 mins
+[1] 156
+Time difference of 15.87954 mins
+[1] 157
+Time difference of 16.46963 mins
+[1] 158
+Time difference of 27.65116 mins
+[1] 159
+Time difference of 20.0001 mins
+[1] 160
+Time difference of 20.7754 mins
+[1] 161
+Time difference of 15.96507 mins
+[1] 162
+Time difference of 27.91342 mins
+[1] 163
+Time difference of 27.25496 mins
+[1] 164
+Time difference of 27.07277 mins
+[1] 165
+Time difference of 20.33111 mins
+[1] 166
+Time difference of 21.11032 mins
+[1] 167
+Time difference of 25.97826 mins
+[1] 168
+Time difference of 27.31446 mins
+[1] 169
+Time difference of 17.66375 mins
+[1] 170
+Time difference of 17.79364 mins
+[1] 171
+Time difference of 24.8545 mins
+[1] 172
+Time difference of 19.60342 mins
+[1] 173
+Time difference of 19.40343 mins
+[1] 174
+Time difference of 24.89866 mins
+[1] 175
+Time difference of 19.55277 mins
+[1] 176
+Time difference of 24.30456 mins
+[1] 177
+Time difference of 21.10502 mins
+[1] 178
+Time difference of 17.5968 mins
+[1] 179
+Time difference of 16.9642 mins
+[1] 180
+Time difference of 26.02045 mins
+[1] 181
+Time difference of 16.76614 mins
+[1] 182
+Time difference of 16.86871 mins
+[1] 183
+Time difference of 11.68941 mins
+[1] 184
+Time difference of 22.41437 mins
+[1] 185
+Time difference of 21.21746 mins
+[1] 186
+Time difference of 20.83572 mins
+[1] 187
+Time difference of 19.63396 mins
+[1] 188
+Time difference of 26.95179 mins
+[1] 189
+Time difference of 28.72591 mins
+[1] 190
+Time difference of 18.6438 mins
+[1] 191
+Time difference of 20.66092 mins
+[1] 192
+Time difference of 24.22928 mins
+[1] 193
+Time difference of 17.89112 mins
+[1] 194
+Time difference of 23.73747 mins
+[1] 195
+Time difference of 10.3163 mins
+[1] 196
+Time difference of 18.31307 mins
+[1] 197
+Time difference of 21.64901 mins
+[1] 198
+Time difference of 23.40891 mins
+[1] 199
+Time difference of 23.74449 mins
+[1] 200
+Time difference of 13.70592 mins
